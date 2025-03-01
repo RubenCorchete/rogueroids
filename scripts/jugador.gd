@@ -1,20 +1,23 @@
-extends CharacterBody2D
+class_name Jugador extends CharacterBody2D
 
 signal disparoLaser(laser)
+signal muerto
 
 @export var aceleracion := 10.0 #Aceleracion de la nave
 @export var velocidadMaximaDeLaNave := 350
 @export var velocidadDeRotacion := 250.0
 @export var tiempoEntreDisparos := 0.2
+var vivo := true
 
 @onready var bocaDeCañon = $"BocaDeCañon"
+@onready var sprite = $Sprite2D
+@onready var zonaColision = $CollisionShape2D
 
 var escenaLaser = preload("res://scennes/laser.tscn")
-
 var enfriamientoDeDisparo = false
 
-
 func _process(delta):
+	if !vivo: return 
 	if Input.is_action_pressed("shoot"):
 		if !enfriamientoDeDisparo:
 			enfriamientoDeDisparo = true
@@ -23,6 +26,7 @@ func _process(delta):
 			enfriamientoDeDisparo = false
 
 func _physics_process(delta):
+	if !vivo: return 
 	var input_vector := Vector2(0, Input.get_axis("move_up", "move_down")) #Comprobar si se esta pulsando la W o la S
 	
 	velocity += input_vector.rotated(rotation) * aceleracion #Velocidad de la nave, para que parezca que no hay gravedad y que acelere hacia donde se gira
@@ -59,3 +63,18 @@ func dispararLaser():
 	l.global_position = bocaDeCañon.global_position
 	l.rotation = rotation
 	emit_signal("disparoLaser", l)
+
+func morir():
+	if vivo == true:
+		vivo = false	
+		sprite.visible = false
+		zonaColision.set_deferred("disabled", true)
+		emit_signal("muerto")
+	
+func reaparecer(posicion):
+	if vivo == false:
+		vivo = true
+		global_position = posicion
+		velocity = Vector2.ZERO
+		sprite.visible = true
+		zonaColision.set_deferred("disabled", false)

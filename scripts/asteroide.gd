@@ -12,6 +12,18 @@ var velocidad := 200
 @onready var sprite = $Sprite2D
 @onready var forma = $CollisionShape2D
 
+var puntos: int:
+	get:
+		match size:
+			TamañosDeAsteroides.GRANDE:
+				return 10
+			TamañosDeAsteroides.MEDIO:
+				return 15
+			TamañosDeAsteroides.PEQUEÑO:
+				return 20
+			_:
+				return 0
+
 func _ready() -> void:
 	rotation = randf_range(0,2*PI)
 	
@@ -47,5 +59,10 @@ func _physics_process(delta: float) -> void:
 		global_position.x = - radio  
 
 func explosion():
-	emit_signal("explotar", global_position, size)
+	emit_signal("explotar", global_position, size, puntos)
 	queue_free()
+
+func _on_body_entered(body: Node2D) -> void:
+	if body is Jugador:
+		var jugador = body 
+		jugador.morir()

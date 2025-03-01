@@ -53,6 +53,14 @@ reset={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="mundo"
+2d_physics/layer_2="jugador"
+2d_physics/layer_3="asteroides"
+2d_physics/layer_4="proyectiles"
+2d_physics/layer_5="areaDeSpawnDelJugador"
+
 [rendering]
 
 environment/defaults/default_clear_color=Color(0, 0, 0, 1)

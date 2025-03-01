@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://copdvrsb6ggp7"]
+
+[ext_resource type="Texture2D" uid="uid://cr6inbfpebr8x" path="res://assets/NavesJugador/Nave1/vidaJugador.png" id="1_1oe4h"]
+
+[node name="UIVidas" type="TextureRect"]
+offset_right = 33.0
+offset_bottom = 26.0
+texture = ExtResource("1_1oe4h")
