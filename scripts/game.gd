@@ -2,7 +2,7 @@ extends Node2D
 
 @onready var lasers = $Lasers
 @onready var jugador = $Jugador
-@onready var asteroides = $Asteroides
+@onready var asteroides = $AsteroidesIniciales
 @onready var hud = $UI/HUD
 @onready var pantallaDeGameOver = $UI/MenuGameOver
 @onready var zonaReaparicion = $ZonaDeReaparicion
@@ -61,6 +61,7 @@ func spawn_asteroides(pos, size):
 	
 func _jugadorMuerto():
 	$SonidoMuerteJugador.play()
+	var posicionNaveMuerta = jugador.global_position
 	vidas -= 1
 	jugador.global_position = areaDeSpawnDelJugador.global_position
 	print(vidas)
@@ -72,3 +73,11 @@ func _jugadorMuerto():
 		while !areaDeSpawnDelJugador.estaVacio:
 			await get_tree().create_timer(0.1).timeout
 		jugador.reaparecer(zonaReaparicion.global_position)
+
+
+func _on_timer_timeout() -> void:
+	var generadorDeMobs = $PathGenerarMobs/PathFollow2D
+	generadorDeMobs.progress_ratio = randf()
+	var a = escenaAsteroides.instantiate() 
+	a.connect("explotar", _asteroideExplotado)
+	asteroides.add_child(a)

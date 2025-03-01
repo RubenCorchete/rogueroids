@@ -11,12 +11,14 @@ var vivo := true
 
 @onready var bocaDeCañon = $"BocaDeCañon"
 @onready var sprite = $Sprite2D
+
 @onready var zonaColision = $CollisionShape2D
 
 var escenaLaser = preload("res://scennes/laser.tscn")
 var enfriamientoDeDisparo = false
 
 func _process(delta):
+	
 	if !vivo: return 
 	if Input.is_action_pressed("shoot"):
 		if !enfriamientoDeDisparo:

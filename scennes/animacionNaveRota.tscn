@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://rg1v41rgayep"]
+
+[sub_resource type="GDScript" id="GDScript_xp23q"]
+script/source = "extends Node2D
+
+@onready var spriteAnimado = $Sprite2DMuerte
+	
+func animacionNaveRota(posicion):
+	spriteAnimado.global_position = posicion
+	spriteAnimado.visible = true
+	await get_tree().create_timer(2).timeout
+	spriteAnimado.play()
+	spriteAnimado.visible = false
+"
+
+[node name="Node2D" type="Node2D"]
+script = SubResource("GDScript_xp23q")

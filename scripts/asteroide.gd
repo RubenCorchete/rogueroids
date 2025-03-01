@@ -24,7 +24,11 @@ var puntos: int:
 			_:
 				return 0
 
+func _init() -> void:
+	size = obtener_tamaño_aleatorio()
+
 func _ready() -> void:
+
 	rotation = randf_range(0,2*PI)
 	
 	#Elegir que asteroide aparece de manera aleatoria
@@ -66,3 +70,8 @@ func _on_body_entered(body: Node2D) -> void:
 	if body is Jugador:
 		var jugador = body 
 		jugador.morir()
+
+func obtener_tamaño_aleatorio():
+	var valores = TamañosDeAsteroides.values()
+	return valores[randi() % valores.size()]
+	
