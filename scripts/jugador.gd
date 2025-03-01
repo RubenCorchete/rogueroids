@@ -1,8 +1,18 @@
 extends CharacterBody2D
 
+signal disparoLaser(laser)
+
 @export var aceleracion := 10.0 #Aceleracion de la nave
 @export var velocidadMaximaDeLaNave := 350
 @export var velocidadDeRotacion := 250.0
+
+@onready var bocaDeCañon = $"BocaDeCañon"
+
+var escenaLaser = preload("res://scennes/laser.tscn")
+
+func _process(delta):
+	if Input.is_action_just_pressed("shoot"):
+		dispararLaser()
 
 func _physics_process(delta):
 	var input_vector := Vector2(0, Input.get_axis("move_up", "move_down")) #Comprobar si se esta pulsando la W o la S
@@ -36,3 +46,8 @@ func _physics_process(delta):
 	elif global_position.x > tamanoPantalla.x: 
 		global_position.x = 0  
 	
+func dispararLaser():
+	var l = escenaLaser.instantiate()
+	l.global_position = bocaDeCañon.global_position
+	l.rotation = rotation
+	emit_signal("disparoLaser", l)
