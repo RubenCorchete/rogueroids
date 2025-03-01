@@ -1,0 +1,38 @@
+extends CharacterBody2D
+
+@export var aceleracion := 10.0 #Aceleracion de la nave
+@export var velocidadMaximaDeLaNave := 350
+@export var velocidadDeRotacion := 250.0
+
+func _physics_process(delta):
+	var input_vector := Vector2(0, Input.get_axis("move_up", "move_down")) #Comprobar si se esta pulsando la W o la S
+	
+	velocity += input_vector.rotated(rotation) * aceleracion #Velocidad de la nave, para que parezca que no hay gravedad y que acelere hacia donde se gira
+	velocity = velocity.limit_length(velocidadMaximaDeLaNave) # aplico una velocidad maxima para la nave
+	
+	#estos dos if hacen el giro
+	if Input.is_action_pressed("rotate_right"):
+		rotate(deg_to_rad(velocidadDeRotacion*delta)) 
+		
+	if Input.is_action_pressed("rotate_left"):
+		rotate(deg_to_rad(-velocidadDeRotacion*delta))		
+	
+	if input_vector.y == 0: #Si no se pulsa ninguna tecla
+		velocity = velocity.move_toward(Vector2.ZERO, 3) #Reducimos la velocidad de 3 en 3 hasta 0
+	
+	move_and_slide()
+	
+	var tamanoPantalla = get_viewport_rect().size #Obtener el tamaño de la pantalla
+	
+	if global_position.y < 0: #Si la posición del jugador es menor a 0 osea se sale por encima de la pantalla
+		global_position.y = tamanoPantalla.y # lo colocamos en el tamaño de la pantalla que es la parte inferior
+		
+	elif global_position.y > tamanoPantalla.y: #Si la posición del jugador es mayor al tamaño de la pantalla
+		global_position.y = 0  #lo colocamos abajo
+	
+	#Igual que la función de arriba pero para la derecha y la izquierda
+	if global_position.x < 0: 
+		global_position.x = tamanoPantalla.x 
+	elif global_position.x > tamanoPantalla.x: 
+		global_position.x = 0  
+	
