@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://5vtgs2at3kfd"]
+
+[ext_resource type="Script" path="res://scripts/asteroide.gd" id="1_psksx"]
+[ext_resource type="Texture2D" uid="uid://cetleqlpx67v7" path="res://assets/Enemigos/Asteroides/MeteoritoPequeño.png" id="2_674xt"]
+[ext_resource type="Shape2D" uid="uid://c4y006mp5qwvk" path="res://recursos/asteroide_forma_pequeño.tres" id="3_12t7h"]
+
+[node name="Asteroide" type="Area2D"]
+collision_layer = 4
+collision_mask = 11
+script = ExtResource("1_psksx")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(1.25, 1.25)
+texture = ExtResource("2_674xt")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -1)
+scale = Vector2(1.25, 1.25)
+shape = ExtResource("3_12t7h")

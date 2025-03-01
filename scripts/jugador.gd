@@ -5,14 +5,22 @@ signal disparoLaser(laser)
 @export var aceleracion := 10.0 #Aceleracion de la nave
 @export var velocidadMaximaDeLaNave := 350
 @export var velocidadDeRotacion := 250.0
+@export var tiempoEntreDisparos := 0.2
 
 @onready var bocaDeCañon = $"BocaDeCañon"
 
 var escenaLaser = preload("res://scennes/laser.tscn")
 
+var enfriamientoDeDisparo = false
+
+
 func _process(delta):
-	if Input.is_action_just_pressed("shoot"):
-		dispararLaser()
+	if Input.is_action_pressed("shoot"):
+		if !enfriamientoDeDisparo:
+			enfriamientoDeDisparo = true
+			dispararLaser()
+			await get_tree().create_timer(tiempoEntreDisparos).timeout
+			enfriamientoDeDisparo = false
 
 func _physics_process(delta):
 	var input_vector := Vector2(0, Input.get_axis("move_up", "move_down")) #Comprobar si se esta pulsando la W o la S
