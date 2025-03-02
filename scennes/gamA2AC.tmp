@@ -51,7 +51,7 @@ scale_max = 5.0
 script = ExtResource("1_n5x7e")
 
 [node name="AutoGuardado" type="Timer" parent="."]
-wait_time = 60.0
+wait_time = 4.0
 autostart = true
 
 [node name="Timer" type="Timer" parent="."]

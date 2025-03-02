@@ -21,6 +21,7 @@ var vidas: int:
 		hud.iniciarVidas(vidas)
 
 func _ready() -> void:
+	
 	pantallaDeGameOver.visible = false
 	puntuacion = 0
 	vidas = 2
@@ -81,3 +82,13 @@ func _on_timer_timeout() -> void:
 	var a = escenaAsteroides.instantiate() 
 	a.connect("explotar", _asteroideExplotado)
 	asteroides.add_child(a)
+
+
+func _on_auto_guardado_timeout() -> void:
+	
+	if GLOBAL != null:
+		GLOBAL.save_game()
+	else:
+		print("ERROR: GLOBAL no está cargado")
+	
+	print("Guardando")

@@ -4,8 +4,8 @@ signal disparoLaser(laser)
 signal muerto
 
 @export var aceleracion := 10.0 #Aceleracion de la nave
-@export var velocidadMaximaDeLaNave := 350
-@export var velocidadDeRotacion := 250.0
+@export var velocidadMaximaDeLaNave := GLOBAL.get_velocidad_maxima()
+@export var velocidadDeRotacion := GLOBAL.get_velocidad_rotacion()
 @export var tiempoEntreDisparos := 0.2
 var vivo := true
 
@@ -29,7 +29,11 @@ func _process(delta):
 
 func _physics_process(delta):
 	if !vivo: return 
+	
 	var input_vector := Vector2(0, Input.get_axis("move_up", "move_down")) #Comprobar si se esta pulsando la W o la S
+	
+	if input_vector.y == 0: #Si no se pulsa ninguna tecla
+		velocity = velocity.move_toward(Vector2.ZERO, 3) #Reducimos la velocidad de 3 en 3 hasta 0
 	
 	velocity += input_vector.rotated(rotation) * aceleracion #Velocidad de la nave, para que parezca que no hay gravedad y que acelere hacia donde se gira
 	velocity = velocity.limit_length(velocidadMaximaDeLaNave) # aplico una velocidad maxima para la nave
@@ -40,10 +44,7 @@ func _physics_process(delta):
 		
 	if Input.is_action_pressed("rotate_left"):
 		rotate(deg_to_rad(-velocidadDeRotacion*delta))		
-	
-	if input_vector.y == 0: #Si no se pulsa ninguna tecla
-		velocity = velocity.move_toward(Vector2.ZERO, 3) #Reducimos la velocidad de 3 en 3 hasta 0
-	
+
 	move_and_slide()
 	
 	var tamanoPantalla = get_viewport_rect().size #Obtener el tamaño de la pantalla

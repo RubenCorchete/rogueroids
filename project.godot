@@ -15,11 +15,16 @@ run/main_scene="res://scennes/game.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+GLOBAL="*res://scripts/GLOBAL.gd"
+
 [display]
 
 window/size/viewport_width=1600
 window/size/viewport_height=900
 window/size/resizable=false
+mouse_cursor/custom_image="res://assets/Cursores/cursor_h.png"
 
 [input]
 
