@@ -5,6 +5,7 @@ var save_path = "user://save_game.dat"
 var game_data : Dictionary = {
 	"velocidadMaximaDeLaNave" : 250,
 	"velocidadDeRotacion" : 200,
+	"tiempoEntreDisparos" : 0.2,
 	"vidas" : 3,
 	"puntos" : 0,
 	
@@ -14,7 +15,11 @@ var game_data : Dictionary = {
 	}
 }
 
+
 # Getters
+func get_tiempo_entre_disparos() -> float:
+	return game_data.get("tiempoEntreDisparos", 0.2)
+
 func get_velocidad_rotacion() -> int:
 	return game_data.get("velocidadDeRotacion", 200)
 
@@ -31,6 +36,9 @@ func get_mejora(nombre: String) -> int:
 	return game_data["Mejoras"].get(nombre, 0)
 
 # Setters
+func set_tiempo_entre_disparos(valor: float) -> void:
+	game_data["tiempoEntreDisparos"] = max(valor, 0)  # Evita valores negativos o cero
+
 func set_velocidad_rotacion(valor: int) -> void:
 	game_data["velocidadDeRotacion"] = max(valor, 0) # Evita valores negativos
 

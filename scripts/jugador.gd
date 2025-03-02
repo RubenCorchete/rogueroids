@@ -3,14 +3,15 @@ class_name Jugador extends CharacterBody2D
 signal disparoLaser(laser)
 signal muerto
 
-@export var aceleracion := 10.0 #Aceleracion de la nave
+@export var aceleracion := 10 #Aceleracion de la nave
 @export var velocidadMaximaDeLaNave := GLOBAL.get_velocidad_maxima()
 @export var velocidadDeRotacion := GLOBAL.get_velocidad_rotacion()
-@export var tiempoEntreDisparos := 0.2
+@export var tiempoEntreDisparos := GLOBAL.get_tiempo_entre_disparos()
 var vivo := true
 
 @onready var bocaDeCañon = $"BocaDeCañon"
 @onready var sprite = $Sprite2D
+@onready var estelaNave = $EstelaNave
 
 @onready var zonaColision = $CollisionShape2D
 
@@ -31,6 +32,14 @@ func _physics_process(delta):
 	if !vivo: return 
 	
 	var input_vector := Vector2(0, Input.get_axis("move_up", "move_down")) #Comprobar si se esta pulsando la W o la S
+	
+	#Cuando se pulsa w sale una estela
+	if Input.is_action_pressed("move_up"):
+		estelaNave.visible = true
+		estelaNave.play("estela")
+	else:
+		estelaNave.visible = false
+		estelaNave.stop()
 	
 	if input_vector.y == 0: #Si no se pulsa ninguna tecla
 		velocity = velocity.move_toward(Vector2.ZERO, 3) #Reducimos la velocidad de 3 en 3 hasta 0
@@ -70,6 +79,7 @@ func dispararLaser():
 func morir():
 	if vivo == true:
 		vivo = false	
+		estelaNave.visible = false
 		sprite.visible = false
 		zonaColision.set_deferred("disabled", true)
 		emit_signal("muerto")
@@ -81,3 +91,7 @@ func reaparecer(posicion):
 		velocity = Vector2.ZERO
 		sprite.visible = true
 		zonaColision.set_deferred("disabled", false)
+
+
+func _on_estela_nave_animation_finished() -> void:
+	estelaNave.pause()

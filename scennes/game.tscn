@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://h4ovwhkij6p7"]
+[gd_scene load_steps=18 format=3 uid="uid://h4ovwhkij6p7"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_n5x7e"]
 [ext_resource type="PackedScene" uid="uid://cun5of68gj8ws" path="res://scennes/jugador.tscn" id="1_ov5bj"]
@@ -7,8 +7,11 @@
 [ext_resource type="PackedScene" uid="uid://5vtgs2at3kfd" path="res://scennes/asteroide.tscn" id="3_yfkqa"]
 [ext_resource type="PackedScene" uid="uid://bq6qromyt2cfe" path="res://scennes/spawn_jugador.tscn" id="6_hu44s"]
 [ext_resource type="AudioStream" uid="uid://c1xc2ti4bxaji" path="res://assets/Sonidos/sfx_laser1.ogg" id="7_vir64"]
-[ext_resource type="AudioStream" uid="uid://bb74rqxi1qonj" path="res://assets/Sonidos/hit.wav" id="8_oee3o"]
-[ext_resource type="AudioStream" uid="uid://0d33lfrcenpr" path="res://assets/Sonidos/explode.wav" id="9_mynhr"]
+[ext_resource type="AudioStream" uid="uid://cme6em52jj2wb" path="res://assets/Sonidos/explosionAsteroides/Explosion1.wav" id="8_4sjih"]
+[ext_resource type="AudioStream" uid="uid://c73p23ndsxkqu" path="res://assets/Sonidos/explosionAsteroides/Explosion2.wav" id="9_37lca"]
+[ext_resource type="AudioStream" uid="uid://bcmaromdnpo2d" path="res://assets/Sonidos/Muerte.wav" id="9_pnlcv"]
+[ext_resource type="AudioStream" uid="uid://conbqo7ihlb1l" path="res://assets/Sonidos/explosionAsteroides/Explosion3.wav" id="10_wo4g0"]
+[ext_resource type="AudioStream" uid="uid://dlsds6u23erjg" path="res://assets/Sonidos/explosionAsteroides/Explosion4.wav" id="11_xlxo7"]
 
 [sub_resource type="Curve2D" id="Curve2D_2hede"]
 _data = {
@@ -47,6 +50,14 @@ gravity = Vector3(0, 0, 0)
 scale_min = 5.0
 scale_max = 5.0
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_71os3"]
+playback_mode = 1
+streams_count = 4
+stream_0/stream = ExtResource("8_4sjih")
+stream_1/stream = ExtResource("9_37lca")
+stream_2/stream = ExtResource("10_wo4g0")
+stream_3/stream = ExtResource("11_xlxo7")
+
 [node name="Juego" type="Node2D"]
 script = ExtResource("1_n5x7e")
 
@@ -54,8 +65,8 @@ script = ExtResource("1_n5x7e")
 wait_time = 60.0
 autostart = true
 
-[node name="Timer" type="Timer" parent="."]
-wait_time = 5.0
+[node name="TimerSpawn" type="Timer" parent="."]
+wait_time = 3.0
 autostart = true
 
 [node name="PathGenerarMobs" type="Path2D" parent="."]
@@ -130,10 +141,12 @@ position = Vector2(800, 450)
 stream = ExtResource("7_vir64")
 
 [node name="SonidoGolpearAsteroide" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("8_oee3o")
+stream = SubResource("AudioStreamRandomizer_71os3")
+volume_db = -10.0
 
 [node name="SonidoMuerteJugador" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("9_mynhr")
+stream = ExtResource("9_pnlcv")
+volume_db = -10.0
 
 [connection signal="timeout" from="AutoGuardado" to="." method="_on_auto_guardado_timeout"]
-[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="TimerSpawn" to="." method="_on_timer_timeout"]
