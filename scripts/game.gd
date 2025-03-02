@@ -19,8 +19,6 @@ var escenaAsteroides = preload("res://scennes/asteroide.tscn")
 
 func _ready() -> void:
 	GLOBAL.load_game()
-	print(GLOBAL.get_puntos())
-	print(GLOBAL.get_vidas())
 	actualizarPuntuacionVidas()
 
 	#Logica de aparición del menú
@@ -90,6 +88,7 @@ func _jugadorMuerto():
 		GLOBAL.jugando = false
 		vidas = GLOBAL.get_vidas_maximas()
 		actualizarPuntuacionVidas()
+		GLOBAL.save_game()
 		
 	else:
 		await get_tree().create_timer(1).timeout
