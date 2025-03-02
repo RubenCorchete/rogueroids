@@ -1,0 +1,70 @@
+[gd_scene load_steps=6 format=3 uid="uid://dthuu0ksi0dit"]
+
+[ext_resource type="PackedScene" uid="uid://dniwegfdv0y2v" path="res://scennes/menu_principal_de_inicio.tscn" id="1_j2llt"]
+[ext_resource type="PackedScene" uid="uid://h4ovwhkij6p7" path="res://scennes/game.tscn" id="2_00c2u"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_kiy1s"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1, 450, 1)
+spread = 0.0
+initial_velocity_min = -10.0
+initial_velocity_max = -10.0
+gravity = Vector3(0, 0, 0)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_xrsy1"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1, 450, 1)
+spread = 0.0
+initial_velocity_min = -30.0
+initial_velocity_max = -30.0
+gravity = Vector3(0, 0, 0)
+scale_min = 3.0
+scale_max = 3.0
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_kcq1j"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1, 450, 1)
+spread = 0.0
+initial_velocity_min = -30.0
+initial_velocity_max = -30.0
+gravity = Vector3(0, 0, 0)
+scale_min = 5.0
+scale_max = 5.0
+
+[node name="Main" type="Node2D"]
+
+[node name="FondoDelJuego" type="Node2D" parent="."]
+
+[node name="LLuviaDeEstrellasTrasera" type="GPUParticles2D" parent="FondoDelJuego"]
+z_index = -100
+position = Vector2(1622, 450)
+amount = 1000
+process_material = SubResource("ParticleProcessMaterial_kiy1s")
+lifetime = 170.0
+preprocess = 280.0
+
+[node name="LLuviaDeEstrellasMedia" type="GPUParticles2D" parent="FondoDelJuego"]
+z_index = -95
+position = Vector2(1622, 450)
+amount = 250
+process_material = SubResource("ParticleProcessMaterial_xrsy1")
+lifetime = 170.0
+preprocess = 280.0
+
+[node name="LLuviaDeEstrellasFrontal" type="GPUParticles2D" parent="FondoDelJuego"]
+z_index = -90
+position = Vector2(1622, 450)
+amount = 30
+process_material = SubResource("ParticleProcessMaterial_kcq1j")
+lifetime = 100.0
+preprocess = 280.0
+
+[node name="MenuPrincipalDeInicio" parent="." instance=ExtResource("1_j2llt")]
+offset_right = 1600.0
+offset_bottom = 900.0
+
+[node name="Juego" parent="." instance=ExtResource("2_00c2u")]
+visible = false

@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://cun5of68gj8ws"]
+[gd_scene load_steps=9 format=3 uid="uid://cun5of68gj8ws"]
 
 [ext_resource type="Texture2D" uid="uid://rwa4yoyyawwk" path="res://assets/NavesJugador/Nave1/naveJugador.png" id="1_aq442"]
 [ext_resource type="Script" path="res://scripts/jugador.gd" id="1_y6npi"]
 [ext_resource type="Texture2D" uid="uid://cuf40hxeirj4y" path="res://assets/NavesJugador/Nave1/fire08.png" id="3_wyq7a"]
 [ext_resource type="Texture2D" uid="uid://dp26aycshb37m" path="res://assets/NavesJugador/Nave1/fire09.png" id="4_0ng7h"]
 [ext_resource type="Texture2D" uid="uid://cpctysgc4ubuq" path="res://assets/NavesJugador/Nave1/fire10.png" id="5_nkd78"]
+[ext_resource type="AudioStream" uid="uid://bs6rlqi0v0dad" path="res://assets/Sonidos/Aceleracion.wav" id="6_f8oom"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_srsh8"]
 radius = 21.0
@@ -48,3 +49,7 @@ position = Vector2(-2.38419e-07, 44)
 scale = Vector2(0.375, 0.8)
 sprite_frames = SubResource("SpriteFrames_btj3p")
 animation = &"estela"
+
+[node name="SonidoMovimiento" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_f8oom")
+volume_db = -5.0

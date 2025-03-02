@@ -1,30 +1,35 @@
-extends Node2D
+class_name Game extends Node2D
 
 @onready var lasers = $Lasers
-@onready var jugador = $Jugador
+#@onready var jugador = $Jugador
 @onready var asteroides = $AsteroidesIniciales
 @onready var hud = $UI/HUD
 @onready var pantallaDeGameOver = $UI/MenuGameOver
 @onready var zonaReaparicion = $ZonaDeReaparicion
 @onready var areaDeSpawnDelJugador = $ZonaDeReaparicion/SpawnJugador
+@onready var musicaMenu = $MusicaMenu
+@onready var musicaInGame = $MusicaInGame
+
+var vidas = GLOBAL.game_data["vidasMaximas"]
+var puntuacion = GLOBAL.game_data["puntos"]
+
+var jugador = preload("res://scennes/jugador.tscn").instantiate()
 
 var escenaAsteroides = preload("res://scennes/asteroide.tscn")
 
-var puntuacion := 0:
-	set(value):
-		puntuacion = value
-		hud.puntuacion = puntuacion
-
-var vidas: int:
-	set(value):
-		vidas = value
-		hud.iniciarVidas(vidas)
-
 func _ready() -> void:
-	
-	pantallaDeGameOver.visible = false
-	puntuacion = 0
-	vidas = 2
+	GLOBAL.load_game()
+	actualizarPuntuacionVidas()
+
+	#Logica de aparición del menú
+	if !GLOBAL.jugando:
+		musicaMenu.play()
+		pantallaDeGameOver.visible = true
+	else:
+		musicaMenu.stop()
+		jugador.position = Vector2(800, 450)
+		add_child(jugador)
+
 	jugador.connect("disparoLaser", _disparoJugador)
 	jugador.connect("muerto", _jugadorMuerto)
 	
@@ -32,8 +37,18 @@ func _ready() -> void:
 		asteroide.connect("explotar", _asteroideExplotado)
 	
 func _process(delta):
-		if Input.is_action_just_pressed("reset"):
-			get_tree().reload_current_scene()
+	
+	if !GLOBAL.jugando and !musicaMenu.is_playing():
+		musicaInGame.stop()
+		musicaMenu.play()
+		
+		
+	if GLOBAL.jugando and !musicaInGame.is_playing():
+		musicaMenu.stop()
+		musicaInGame.play()
+		
+	if Input.is_action_just_pressed("reset"):
+		get_tree().reload_current_scene()
 
 func _disparoJugador(laser):
 	$SonidoLaser.play()
@@ -41,7 +56,8 @@ func _disparoJugador(laser):
 
 func _asteroideExplotado(posicion, tamaño, puntos):
 	$SonidoGolpearAsteroide.play()
-	puntuacion += puntos
+	GLOBAL.set_añadir_puntos(puntos)
+	hud.puntuacion = GLOBAL.get_puntos()
 	for i in range(2):
 		match tamaño:
 			asteroide.TamañosDeAsteroides.GRANDE:
@@ -50,7 +66,7 @@ func _asteroideExplotado(posicion, tamaño, puntos):
 				spawn_asteroides(posicion, asteroide.TamañosDeAsteroides.PEQUEÑO)
 			asteroide.TamañosDeAsteroides.PEQUEÑO:
 				pass
-	print(puntuacion)
+	print(GLOBAL.get_puntos())
 		
 
 func spawn_asteroides(pos, size):
@@ -64,11 +80,16 @@ func _jugadorMuerto():
 	$SonidoMuerteJugador.play()
 	var posicionNaveMuerta = jugador.global_position
 	vidas -= 1
+	hud.iniciarVidas(vidas)
 	jugador.global_position = areaDeSpawnDelJugador.global_position
-	print(vidas)
+	
 	if vidas <= 0:
 		await get_tree().create_timer(2).timeout
 		pantallaDeGameOver.visible = true
+		GLOBAL.jugando = false
+		vidas = GLOBAL.get_vidas_maximas()
+		actualizarPuntuacionVidas()
+		
 	else:
 		await get_tree().create_timer(1).timeout
 		while !areaDeSpawnDelJugador.estaVacio:
@@ -92,3 +113,9 @@ func _on_auto_guardado_timeout() -> void:
 		print("ERROR: GLOBAL no está cargado")
 	
 	print("Guardando")
+
+func actualizarPuntuacionVidas():
+	puntuacion = GLOBAL.game_data["puntos"]
+	vidas = GLOBAL.game_data["vidasMaximas"]
+	hud.cambiarScore(puntuacion)
+	hud.iniciarVidas(vidas)

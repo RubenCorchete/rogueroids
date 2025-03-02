@@ -7,14 +7,13 @@ signal muerto
 @export var velocidadMaximaDeLaNave := GLOBAL.get_velocidad_maxima()
 @export var velocidadDeRotacion := GLOBAL.get_velocidad_rotacion()
 @export var tiempoEntreDisparos := GLOBAL.get_tiempo_entre_disparos()
-var vivo := true
-
 @onready var bocaDeCañon = $"BocaDeCañon"
 @onready var sprite = $Sprite2D
 @onready var estelaNave = $EstelaNave
-
 @onready var zonaColision = $CollisionShape2D
+@onready var sonidoAceleracion = $SonidoMovimiento
 
+var vivo := true
 var escenaLaser = preload("res://scennes/laser.tscn")
 var enfriamientoDeDisparo = false
 
@@ -37,9 +36,14 @@ func _physics_process(delta):
 	if Input.is_action_pressed("move_up"):
 		estelaNave.visible = true
 		estelaNave.play("estela")
+		
+		if !sonidoAceleracion.is_playing():
+			sonidoAceleracion.play()
+		
 	else:
 		estelaNave.visible = false
 		estelaNave.stop()
+		sonidoAceleracion.stop()
 	
 	if input_vector.y == 0: #Si no se pulsa ninguna tecla
 		velocity = velocity.move_toward(Vector2.ZERO, 3) #Reducimos la velocidad de 3 en 3 hasta 0

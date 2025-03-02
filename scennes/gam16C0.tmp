@@ -1,0 +1,153 @@
+[gd_scene load_steps=18 format=3 uid="uid://h4ovwhkij6p7"]
+
+[ext_resource type="Script" path="res://scripts/game.gd" id="1_n5x7e"]
+[ext_resource type="PackedScene" uid="uid://b7l76qvse7cob" path="res://scennes/hud.tscn" id="2_772il"]
+[ext_resource type="PackedScene" uid="uid://denyfiea668r2" path="res://scennes/menuGameOver.tscn" id="3_8j1ru"]
+[ext_resource type="PackedScene" uid="uid://5vtgs2at3kfd" path="res://scennes/asteroide.tscn" id="3_yfkqa"]
+[ext_resource type="PackedScene" uid="uid://bq6qromyt2cfe" path="res://scennes/spawn_jugador.tscn" id="6_hu44s"]
+[ext_resource type="AudioStream" uid="uid://c1xc2ti4bxaji" path="res://assets/Sonidos/sfx_laser1.ogg" id="7_vir64"]
+[ext_resource type="AudioStream" uid="uid://cme6em52jj2wb" path="res://assets/Sonidos/explosionAsteroides/Explosion1.wav" id="8_4sjih"]
+[ext_resource type="AudioStream" uid="uid://c73p23ndsxkqu" path="res://assets/Sonidos/explosionAsteroides/Explosion2.wav" id="9_37lca"]
+[ext_resource type="AudioStream" uid="uid://bcmaromdnpo2d" path="res://assets/Sonidos/Muerte.wav" id="9_pnlcv"]
+[ext_resource type="AudioStream" uid="uid://conbqo7ihlb1l" path="res://assets/Sonidos/explosionAsteroides/Explosion3.wav" id="10_wo4g0"]
+[ext_resource type="AudioStream" uid="uid://dlsds6u23erjg" path="res://assets/Sonidos/explosionAsteroides/Explosion4.wav" id="11_xlxo7"]
+[ext_resource type="AudioStream" uid="uid://bhuuh5efl0o14" path="res://assets/Sonidos/Musica/MusicaMenuPrincipal.wav" id="12_s78ff"]
+
+[sub_resource type="Curve2D" id="Curve2D_2hede"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 1601, -2, 0, 0, 0, 0, 1600, 899, 0, 0, 0, 0, 0, 899, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1600, -3)
+}
+point_count = 5
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_x3xt8"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1, 450, 1)
+spread = 0.0
+initial_velocity_min = -10.0
+initial_velocity_max = -10.0
+gravity = Vector3(0, 0, 0)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_07rwv"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1, 450, 1)
+spread = 0.0
+initial_velocity_min = -30.0
+initial_velocity_max = -30.0
+gravity = Vector3(0, 0, 0)
+scale_min = 3.0
+scale_max = 3.0
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ef4sv"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1, 450, 1)
+spread = 0.0
+initial_velocity_min = -30.0
+initial_velocity_max = -30.0
+gravity = Vector3(0, 0, 0)
+scale_min = 5.0
+scale_max = 5.0
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_71os3"]
+playback_mode = 1
+streams_count = 4
+stream_0/stream = ExtResource("8_4sjih")
+stream_1/stream = ExtResource("9_37lca")
+stream_2/stream = ExtResource("10_wo4g0")
+stream_3/stream = ExtResource("11_xlxo7")
+
+[node name="Juego" type="Node2D"]
+script = ExtResource("1_n5x7e")
+
+[node name="AutoGuardado" type="Timer" parent="."]
+wait_time = 60.0
+autostart = true
+
+[node name="TimerSpawn" type="Timer" parent="."]
+wait_time = 3.0
+autostart = true
+
+[node name="PathGenerarMobs" type="Path2D" parent="."]
+curve = SubResource("Curve2D_2hede")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="PathGenerarMobs"]
+position = Vector2(1600.5, 449.912)
+rotation = 1.57191
+progress = 451.912
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="HUD" parent="UI" instance=ExtResource("2_772il")]
+
+[node name="MenuGameOver" parent="UI" instance=ExtResource("3_8j1ru")]
+visible = false
+
+[node name="FondoDelJuego" type="Node2D" parent="."]
+
+[node name="LLuviaDeEstrellasTrasera" type="GPUParticles2D" parent="FondoDelJuego"]
+z_index = -100
+position = Vector2(1622, 450)
+amount = 1000
+process_material = SubResource("ParticleProcessMaterial_x3xt8")
+lifetime = 170.0
+preprocess = 280.0
+
+[node name="LLuviaDeEstrellasMedia" type="GPUParticles2D" parent="FondoDelJuego"]
+z_index = -95
+position = Vector2(1622, 450)
+amount = 250
+process_material = SubResource("ParticleProcessMaterial_07rwv")
+lifetime = 170.0
+preprocess = 280.0
+
+[node name="LLuviaDeEstrellasFrontal" type="GPUParticles2D" parent="FondoDelJuego"]
+z_index = -90
+position = Vector2(1622, 450)
+amount = 30
+process_material = SubResource("ParticleProcessMaterial_ef4sv")
+lifetime = 170.0
+preprocess = 280.0
+
+[node name="Lasers" type="Node2D" parent="."]
+
+[node name="AsteroidesIniciales" type="Node" parent="."]
+
+[node name="Asteroide" parent="AsteroidesIniciales" instance=ExtResource("3_yfkqa")]
+position = Vector2(359, 409)
+
+[node name="Asteroide2" parent="AsteroidesIniciales" instance=ExtResource("3_yfkqa")]
+position = Vector2(417, 650)
+
+[node name="Asteroide3" parent="AsteroidesIniciales" instance=ExtResource("3_yfkqa")]
+position = Vector2(1117, 616)
+
+[node name="Asteroide4" parent="AsteroidesIniciales" instance=ExtResource("3_yfkqa")]
+position = Vector2(1042, 223)
+
+[node name="Asteroide5" parent="AsteroidesIniciales" instance=ExtResource("3_yfkqa")]
+position = Vector2(359, 409)
+
+[node name="ZonaDeReaparicion" type="Node2D" parent="."]
+position = Vector2(800, 450)
+
+[node name="SpawnJugador" parent="ZonaDeReaparicion" instance=ExtResource("6_hu44s")]
+
+[node name="SonidoLaser" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("7_vir64")
+
+[node name="SonidoGolpearAsteroide" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_71os3")
+volume_db = -10.0
+
+[node name="SonidoMuerteJugador" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("9_pnlcv")
+volume_db = -10.0
+
+[node name="MusicaMenu" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("12_s78ff")
+autoplay = true
+
+[connection signal="timeout" from="AutoGuardado" to="." method="_on_auto_guardado_timeout"]
+[connection signal="timeout" from="TimerSpawn" to="." method="_on_timer_timeout"]
