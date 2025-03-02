@@ -10,7 +10,7 @@ var game_data : Dictionary = {
 	"tiempoEntreDisparos" : 0.8,
 	"vidasIniciales" : 1,
 	"vidas" : 1,
-	"version" : 1.01,
+	"version" : 1.02,
 	"puntosInicio" : 0,
 	"puntos" : 0,
 	"Mejoras" : {
@@ -24,7 +24,7 @@ var default_game_data : Dictionary = {
 	"velocidadDeRotacion" : 200,
 	"tiempoEntreDisparos" : 0.8,
 	"vidasIniciales" : 1,
-	"version" : 1.01,
+	"version" : 1.02,
 	"vidas" : 1,
 	"puntos" : 0,
 	"puntosInicio" : 0,
