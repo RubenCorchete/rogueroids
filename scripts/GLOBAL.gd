@@ -1,20 +1,21 @@
 extends Node
 
-var version = "1.0"
+var version = 1.02
 var save_path = "user://save_game.dat"
 var jugando = false
 
 var game_data : Dictionary = {
 	"velocidadMaximaDeLaNave" : 250,
 	"velocidadDeRotacion" : 200,
-	"tiempoEntreDisparos" : 0.7,
-	"vidasMaximas" : 1,
+	"tiempoEntreDisparos" : 0.8,
+	"vidasIniciales" : 1,
 	"vidas" : 1,
+	"version" : 1.01,
+	"puntosInicio" : 0,
 	"puntos" : 0,
-	
 	"Mejoras" : {
-		"Mejora1" : 1,
-		"Mejora2" : 1,
+		"Mejora1" : 0,
+		"Mejora2" : 0,
 	}
 }
 
@@ -22,10 +23,11 @@ var default_game_data : Dictionary = {
 	"velocidadMaximaDeLaNave" : 250,
 	"velocidadDeRotacion" : 200,
 	"tiempoEntreDisparos" : 0.8,
-	"vidasMaximas" : 1,
+	"vidasIniciales" : 1,
+	"version" : 1.01,
 	"vidas" : 1,
 	"puntos" : 0,
-	
+	"puntosInicio" : 0,
 	"Mejoras" : {
 		"Mejora1" : 0,
 		"Mejora2" : 0,
@@ -94,9 +96,10 @@ func load_game() -> void:
 
 	if FileAccess.file_exists(save_path):
 		var versionArchivo = save_file.get_var()
+		print(versionArchivo.has("version"))
 		
 		if versionArchivo.has("version") and versionArchivo["version"] == version:
-			game_data = save_file.get_var()	
+			game_data = versionArchivo
 	else:
 		game_data = default_game_data
 		

@@ -17,5 +17,5 @@ func _on_boton_de_compra_pressed() -> void:
 
 func _on_boton_de_restart_partida_pressed() -> void:
 	GLOBAL.reiniciar_partida()
-	get_parent().get_parent().actualizarPuntuacionVidas() #Obtener escena game
+	get_parent().get_parent().actualizarPuntuacionVidasReinicio() #Obtener escena game
 	

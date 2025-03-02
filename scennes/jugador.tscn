@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://cun5of68gj8ws"]
 
-[ext_resource type="Texture2D" uid="uid://rwa4yoyyawwk" path="res://assets/NavesJugador/Nave1/naveJugador.png" id="1_aq442"]
 [ext_resource type="Script" path="res://scripts/jugador.gd" id="1_y6npi"]
+[ext_resource type="Texture2D" uid="uid://bgnkh6v1dxrwa" path="res://assets/NavesJugador/Nave1/nave1canon.png" id="2_fjdw0"]
 [ext_resource type="Texture2D" uid="uid://cuf40hxeirj4y" path="res://assets/NavesJugador/Nave1/fire08.png" id="3_wyq7a"]
 [ext_resource type="Texture2D" uid="uid://dp26aycshb37m" path="res://assets/NavesJugador/Nave1/fire09.png" id="4_0ng7h"]
 [ext_resource type="Texture2D" uid="uid://cpctysgc4ubuq" path="res://assets/NavesJugador/Nave1/fire10.png" id="5_nkd78"]
@@ -33,8 +33,9 @@ collision_mask = 5
 script = ExtResource("1_y6npi")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -5)
 scale = Vector2(0.75, 0.75)
-texture = ExtResource("1_aq442")
+texture = ExtResource("2_fjdw0")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 7)

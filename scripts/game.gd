@@ -10,7 +10,7 @@ class_name Game extends Node2D
 @onready var musicaMenu = $MusicaMenu
 @onready var musicaInGame = $MusicaInGame
 
-var vidas = GLOBAL.game_data["vidasMaximas"]
+var vidas = GLOBAL.game_data["vidas"]
 var puntuacion = GLOBAL.game_data["puntos"]
 
 var jugador = preload("res://scennes/jugador.tscn").instantiate()
@@ -19,6 +19,8 @@ var escenaAsteroides = preload("res://scennes/asteroide.tscn")
 
 func _ready() -> void:
 	GLOBAL.load_game()
+	print(GLOBAL.get_puntos())
+	print(GLOBAL.get_vidas())
 	actualizarPuntuacionVidas()
 
 	#Logica de aparición del menú
@@ -40,8 +42,7 @@ func _process(delta):
 	
 	if !GLOBAL.jugando and !musicaMenu.is_playing():
 		musicaInGame.stop()
-		musicaMenu.play()
-		
+		musicaMenu.play()	
 		
 	if GLOBAL.jugando and !musicaInGame.is_playing():
 		musicaMenu.stop()
@@ -56,8 +57,10 @@ func _disparoJugador(laser):
 
 func _asteroideExplotado(posicion, tamaño, puntos):
 	$SonidoGolpearAsteroide.play()
+	
 	GLOBAL.set_añadir_puntos(puntos)
 	hud.puntuacion = GLOBAL.get_puntos()
+	
 	for i in range(2):
 		match tamaño:
 			asteroide.TamañosDeAsteroides.GRANDE:
@@ -66,8 +69,6 @@ func _asteroideExplotado(posicion, tamaño, puntos):
 				spawn_asteroides(posicion, asteroide.TamañosDeAsteroides.PEQUEÑO)
 			asteroide.TamañosDeAsteroides.PEQUEÑO:
 				pass
-	print(GLOBAL.get_puntos())
-		
 
 func spawn_asteroides(pos, size):
 	var a = escenaAsteroides.instantiate()
@@ -104,18 +105,17 @@ func _on_timer_timeout() -> void:
 	a.connect("explotar", _asteroideExplotado)
 	asteroides.add_child(a)
 
-
 func _on_auto_guardado_timeout() -> void:
-	
-	if GLOBAL != null:
 		GLOBAL.save_game()
-	else:
-		print("ERROR: GLOBAL no está cargado")
-	
-	print("Guardando")
 
 func actualizarPuntuacionVidas():
 	puntuacion = GLOBAL.game_data["puntos"]
-	vidas = GLOBAL.game_data["vidasMaximas"]
+	vidas = GLOBAL.game_data["vidas"]
+	hud.cambiarScore(puntuacion)
+	hud.iniciarVidas(vidas)
+	
+func actualizarPuntuacionVidasReinicio():
+	puntuacion = GLOBAL.game_data["puntosInicio"]
+	vidas = GLOBAL.game_data["vidasIniciales"]
 	hud.cambiarScore(puntuacion)
 	hud.iniciarVidas(vidas)

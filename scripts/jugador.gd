@@ -31,7 +31,7 @@ func _physics_process(delta):
 	if !vivo: return 
 	
 	var input_vector := Vector2(0, Input.get_axis("move_up", "move_down")) #Comprobar si se esta pulsando la W o la S
-	
+
 	#Cuando se pulsa w sale una estela
 	if Input.is_action_pressed("move_up"):
 		estelaNave.visible = true
@@ -39,12 +39,11 @@ func _physics_process(delta):
 		
 		if !sonidoAceleracion.is_playing():
 			sonidoAceleracion.play()
-		
 	else:
 		estelaNave.visible = false
 		estelaNave.stop()
 		sonidoAceleracion.stop()
-	
+
 	if input_vector.y == 0: #Si no se pulsa ninguna tecla
 		velocity = velocity.move_toward(Vector2.ZERO, 3) #Reducimos la velocidad de 3 en 3 hasta 0
 	
@@ -86,6 +85,7 @@ func morir():
 		estelaNave.visible = false
 		sprite.visible = false
 		zonaColision.set_deferred("disabled", true)
+		sonidoAceleracion.stop()
 		emit_signal("muerto")
 	
 func reaparecer(posicion):
