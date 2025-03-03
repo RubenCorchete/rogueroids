@@ -1,6 +1,5 @@
 class_name menu extends Control
 
-#var escena = preload("res://scennes/game.tscn")
 @onready var menuAjustes = $MenuDeAjustes
 @onready var menuPrincipal = $MenuPrincipal
 
@@ -18,6 +17,7 @@ func _on_boton_de_compra_pressed() -> void:
 func _on_boton_de_restart_partida_pressed() -> void:
 	GLOBAL.reiniciar_partida()
 	get_parent().get_parent().actualizarPuntuacionVidasReinicio() #Obtener escena game
+	
 	
 func _on_boton_de_ajustes_pressed() -> void:
 	menuAjustes.obtener_menu_principal(menuPrincipal)

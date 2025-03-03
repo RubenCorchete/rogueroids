@@ -1,0 +1,63 @@
+[gd_scene load_steps=4 format=3 uid="uid://tv7864l818of"]
+
+[ext_resource type="Script" path="res://scripts/pausa.gd" id="1_uaaja"]
+[ext_resource type="FontFile" uid="uid://eno2cvxdrdvd" path="res://assets/fuentes/Kenney Blocks.ttf" id="2_ujuoj"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_qb0ey"]
+font = ExtResource("2_ujuoj")
+font_size = 72
+
+[node name="Pausa" type="CanvasLayer"]
+process_mode = 3
+script = ExtResource("1_uaaja")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+offset_right = 1932.0
+offset_bottom = 1095.0
+color = Color(0.205117, 0.205117, 0.205117, 0.490196)
+
+[node name="Titulo" type="Label" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -963.0
+offset_top = -324.0
+offset_right = 957.0
+offset_bottom = -205.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 62
+text = "Pausa"
+label_settings = SubResource("LabelSettings_qb0ey")
+horizontal_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+visible = false
+offset_left = 738.0
+offset_top = 450.0
+offset_right = 1160.0
+offset_bottom = 671.0
+
+[node name="ButtonContinuar" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ujuoj")
+theme_override_font_sizes/font_size = 40
+text = "Continuar"
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+
+[node name="ButtonSalir" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ujuoj")
+theme_override_font_sizes/font_size = 40
+text = "Salir
+"
+
+[connection signal="pressed" from="VBoxContainer/ButtonContinuar" to="." method="_on_button_continuar_pressed"]
+[connection signal="pressed" from="VBoxContainer/ButtonSalir" to="." method="_on_button_salir_pressed"]

@@ -81,7 +81,7 @@ func dispararLaser():
 
 func morir():
 	if vivo == true:
-		vivo = false	
+		vivo = false
 		estelaNave.visible = false
 		sprite.visible = false
 		zonaColision.set_deferred("disabled", true)

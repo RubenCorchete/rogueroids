@@ -85,16 +85,20 @@ func _jugadorMuerto():
 	
 	if vidas <= 0:
 		await get_tree().create_timer(2).timeout
-		pantallaDeGameOver.visible = true
-		GLOBAL.jugando = false
-		vidas = GLOBAL.get_vidas_maximas()
-		actualizarPuntuacionVidas()
-		GLOBAL.save_game()
+		mostrarMenuPrincipalAlMorir()
 	else:
 		await get_tree().create_timer(1).timeout
 		while !areaDeSpawnDelJugador.estaVacio:
 			await get_tree().create_timer(0.1).timeout
 		jugador.reaparecer(zonaReaparicion.global_position)
+
+func mostrarMenuPrincipalAlMorir():
+	pantallaDeGameOver.visible = true
+	GLOBAL.jugando = false
+	jugador.morir()
+	vidas = GLOBAL.get_vidas_maximas()
+	actualizarPuntuacionVidas()
+	GLOBAL.save_game()
 
 func _on_timer_timeout() -> void:
 	if GLOBAL.jugando:
@@ -104,7 +108,8 @@ func _on_timer_timeout() -> void:
 		asteroides.add_child(a)
 
 func _on_auto_guardado_timeout() -> void:
-	GLOBAL.save_game()
+	if GLOBAL.jugando:
+		GLOBAL.save_game()
 
 func actualizarPuntuacionVidas():
 	puntuacion = GLOBAL.game_data["puntos"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://h4ovwhkij6p7"]
+[gd_scene load_steps=20 format=3 uid="uid://h4ovwhkij6p7"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_n5x7e"]
 [ext_resource type="PackedScene" uid="uid://b7l76qvse7cob" path="res://scennes/hud.tscn" id="2_772il"]
@@ -13,6 +13,7 @@
 [ext_resource type="AudioStream" uid="uid://dlsds6u23erjg" path="res://assets/Sonidos/explosionAsteroides/Explosion4.wav" id="11_xlxo7"]
 [ext_resource type="AudioStream" uid="uid://bhuuh5efl0o14" path="res://assets/Sonidos/Musica/MusicaMenuPrincipal.wav" id="12_s78ff"]
 [ext_resource type="AudioStream" uid="uid://gybqso4br5yj" path="res://assets/Sonidos/Musica/MusicaInGame.mp3" id="13_y60vx"]
+[ext_resource type="PackedScene" uid="uid://tv7864l818of" path="res://scennes/pausa.tscn" id="14_nxfwm"]
 
 [sub_resource type="Curve2D" id="Curve2D_2hede"]
 _data = {
@@ -158,6 +159,8 @@ autostart = true
 [node name="AutoGuardado" type="Timer" parent="Timers"]
 wait_time = 60.0
 autostart = true
+
+[node name="Pausa" parent="." instance=ExtResource("14_nxfwm")]
 
 [connection signal="timeout" from="Timers/TimerSpawn" to="." method="_on_timer_timeout"]
 [connection signal="timeout" from="Timers/AutoGuardado" to="." method="_on_auto_guardado_timeout"]

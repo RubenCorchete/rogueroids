@@ -187,16 +187,15 @@ func reiniciar_partida():
 	var save_file = FileAccess.open(save_path, FileAccess.WRITE)
 
 	# Verificar que default_game_data no sea null
-	if default_game_data:
-		var default_game_data_con_config = default_game_data.duplicate(true)
+	var default_game_data_con_config = default_game_data.duplicate(true)
 
-		# Verificar que game_data["configuracion"] exista antes de copiarlo
-		if game_data.has("configuracion"):
-			default_game_data_con_config["configuracion"] = game_data["configuracion"].duplicate(true)
+	# Verificar que game_data["configuracion"] exista antes de copiarlo
+	if game_data.has("Configuracion"):
+		default_game_data_con_config["Configuracion"] = game_data["Configuracion"].duplicate(true)
 		
-		# Guardar los datos reiniciados
-		save_file.store_var(default_game_data_con_config)
-		save_file = null
-		
-	save_game()
+	print(default_game_data_con_config.get("puntos"))
+	# Guardar los datos reiniciados
+	save_file.store_var(default_game_data_con_config)
+	save_file = null
+
 	load_game()
