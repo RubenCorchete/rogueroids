@@ -1,6 +1,6 @@
 extends Node
 
-var version = 1.02
+var version = 1.04
 var save_path = "user://save_game.dat"
 var jugando = false
 
@@ -10,12 +10,16 @@ var game_data : Dictionary = {
 	"tiempoEntreDisparos" : 0.8,
 	"vidasIniciales" : 1,
 	"vidas" : 1,
-	"version" : 1.02,
+	"version" : 1.04,
 	"puntosInicio" : 0,
 	"puntos" : 0,
 	"Mejoras" : {
 		"Mejora1" : 0,
 		"Mejora2" : 0,
+	},
+	"Configuracion" : {
+		"volumen" : 0.5,
+		"Resolucion" : 0,
 	}
 }
 
@@ -24,13 +28,17 @@ var default_game_data : Dictionary = {
 	"velocidadDeRotacion" : 200,
 	"tiempoEntreDisparos" : 0.8,
 	"vidasIniciales" : 1,
-	"version" : 1.02,
+	"version" : 1.04,
 	"vidas" : 1,
 	"puntos" : 0,
 	"puntosInicio" : 0,
 	"Mejoras" : {
 		"Mejora1" : 0,
 		"Mejora2" : 0,
+	},
+	"Configuracion" : {
+		"volumen" : 0.5,
+		"Resolucion" : 0,
 	}
 }
 
@@ -42,6 +50,9 @@ func reiniciar_partida():
 	load_game()
 
 # Getters
+func get_volumen() -> float:
+	return game_data.get("Configuracion").get("volumen")
+
 func get_tiempo_entre_disparos() -> float:
 	return game_data.get("tiempoEntreDisparos")
 
@@ -64,6 +75,9 @@ func get_mejora(nombre: String) -> int:
 	return game_data["Mejoras"].get(nombre, 0)
 
 # Setters
+func set_volumen(valor: float) -> void:
+	game_data["Configuracion"]["volumen"] = valor
+
 func set_tiempo_entre_disparos(valor: float) -> void:
 	game_data["tiempoEntreDisparos"] = max(valor, 0)  # Evita valores negativos o cero
 
@@ -104,3 +118,8 @@ func load_game() -> void:
 		game_data = default_game_data
 		
 	save_file = null #Cerrar el archivo
+	set_config()
+	
+func set_config():
+	var volumen = game_data.get("Configuracion", {}).get("volumen", 0.5)
+	AudioServer.set_bus_volume_db(0, linear_to_db(volumen))

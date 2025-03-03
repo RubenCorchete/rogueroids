@@ -1,20 +1,21 @@
 class_name Game extends Node2D
 
 @onready var lasers = $Lasers
-#@onready var jugador = $Jugador
 @onready var asteroides = $AsteroidesIniciales
 @onready var hud = $UI/HUD
-@onready var pantallaDeGameOver = $UI/MenuGameOver
+@onready var pantallaDeGameOver = $UI/MenuPrincipal
 @onready var zonaReaparicion = $ZonaDeReaparicion
 @onready var areaDeSpawnDelJugador = $ZonaDeReaparicion/SpawnJugador
-@onready var musicaMenu = $MusicaMenu
-@onready var musicaInGame = $MusicaInGame
+@onready var musicaMenu = $Sonido/MusicaMenu
+@onready var musicaInGame = $Sonido/MusicaInGame
+@onready var disparoJugador = $Sonido/SonidoLaser
+@onready var sonidoGolpearAsteroide = $Sonido/SonidoGolpearAsteroide
+@onready var sonidoMuerteJugador = $Sonido/SonidoMuerteJugador
+@onready var generadorDeMobs = $PathGenerarMobs/PathFollow2D
 
 var vidas = GLOBAL.game_data["vidas"]
 var puntuacion = GLOBAL.game_data["puntos"]
-
 var jugador = preload("res://scennes/jugador.tscn").instantiate()
-
 var escenaAsteroides = preload("res://scennes/asteroide.tscn")
 
 func _ready() -> void:
@@ -50,11 +51,11 @@ func _process(delta):
 		get_tree().reload_current_scene()
 
 func _disparoJugador(laser):
-	$SonidoLaser.play()
+	disparoJugador.play()
 	lasers.add_child(laser)
 
 func _asteroideExplotado(posicion, tamaño, puntos):
-	$SonidoGolpearAsteroide.play()
+	sonidoGolpearAsteroide.play()
 	
 	GLOBAL.set_añadir_puntos(puntos)
 	hud.puntuacion = GLOBAL.get_puntos()
@@ -76,7 +77,7 @@ func spawn_asteroides(pos, size):
 	asteroides.call_deferred("add_child", a)
 	
 func _jugadorMuerto():
-	$SonidoMuerteJugador.play()
+	sonidoMuerteJugador.play()
 	var posicionNaveMuerta = jugador.global_position
 	vidas -= 1
 	hud.iniciarVidas(vidas)
@@ -89,23 +90,21 @@ func _jugadorMuerto():
 		vidas = GLOBAL.get_vidas_maximas()
 		actualizarPuntuacionVidas()
 		GLOBAL.save_game()
-		
 	else:
 		await get_tree().create_timer(1).timeout
 		while !areaDeSpawnDelJugador.estaVacio:
 			await get_tree().create_timer(0.1).timeout
 		jugador.reaparecer(zonaReaparicion.global_position)
 
-
 func _on_timer_timeout() -> void:
-	var generadorDeMobs = $PathGenerarMobs/PathFollow2D
-	generadorDeMobs.progress_ratio = randf()
-	var a = escenaAsteroides.instantiate() 
-	a.connect("explotar", _asteroideExplotado)
-	asteroides.add_child(a)
+	if GLOBAL.jugando:
+		generadorDeMobs.progress_ratio = randf()
+		var a = escenaAsteroides.instantiate() 
+		a.connect("explotar", _asteroideExplotado)
+		asteroides.add_child(a)
 
 func _on_auto_guardado_timeout() -> void:
-		GLOBAL.save_game()
+	GLOBAL.save_game()
 
 func actualizarPuntuacionVidas():
 	puntuacion = GLOBAL.game_data["puntos"]

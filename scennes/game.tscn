@@ -62,14 +62,6 @@ stream_3/stream = ExtResource("11_xlxo7")
 [node name="Juego" type="Node2D"]
 script = ExtResource("1_n5x7e")
 
-[node name="AutoGuardado" type="Timer" parent="."]
-wait_time = 60.0
-autostart = true
-
-[node name="TimerSpawn" type="Timer" parent="."]
-wait_time = 3.0
-autostart = true
-
 [node name="PathGenerarMobs" type="Path2D" parent="."]
 curve = SubResource("Curve2D_2hede")
 
@@ -82,7 +74,7 @@ progress = 451.912
 
 [node name="HUD" parent="UI" instance=ExtResource("2_772il")]
 
-[node name="MenuGameOver" parent="UI" instance=ExtResource("3_8j1ru")]
+[node name="MenuPrincipal" parent="UI" instance=ExtResource("3_8j1ru")]
 visible = false
 
 [node name="FondoDelJuego" type="Node2D" parent="."]
@@ -100,7 +92,7 @@ z_index = -95
 position = Vector2(1622, 450)
 amount = 250
 process_material = SubResource("ParticleProcessMaterial_07rwv")
-lifetime = 170.0
+lifetime = 120.0
 preprocess = 280.0
 
 [node name="LLuviaDeEstrellasFrontal" type="GPUParticles2D" parent="FondoDelJuego"]
@@ -128,31 +120,43 @@ position = Vector2(1117, 616)
 position = Vector2(1042, 223)
 
 [node name="Asteroide5" parent="AsteroidesIniciales" instance=ExtResource("3_yfkqa")]
-position = Vector2(359, 409)
+position = Vector2(472, 225)
 
 [node name="ZonaDeReaparicion" type="Node2D" parent="."]
 position = Vector2(800, 450)
 
 [node name="SpawnJugador" parent="ZonaDeReaparicion" instance=ExtResource("6_hu44s")]
 
-[node name="SonidoLaser" type="AudioStreamPlayer2D" parent="."]
+[node name="Sonido" type="Node2D" parent="."]
+
+[node name="SonidoLaser" type="AudioStreamPlayer2D" parent="Sonido"]
 stream = ExtResource("7_vir64")
 
-[node name="SonidoGolpearAsteroide" type="AudioStreamPlayer2D" parent="."]
+[node name="SonidoGolpearAsteroide" type="AudioStreamPlayer2D" parent="Sonido"]
 stream = SubResource("AudioStreamRandomizer_71os3")
 volume_db = -10.0
 
-[node name="SonidoMuerteJugador" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("9_pnlcv")
+[node name="MusicaInGame" type="AudioStreamPlayer2D" parent="Sonido"]
+stream = ExtResource("13_y60vx")
+volume_db = -15.0
 
-[node name="MusicaMenu" type="AudioStreamPlayer2D" parent="."]
+[node name="MusicaMenu" type="AudioStreamPlayer2D" parent="Sonido"]
 stream = ExtResource("12_s78ff")
 volume_db = -10.0
 autoplay = true
 
-[node name="MusicaInGame" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("13_y60vx")
-volume_db = -15.0
+[node name="SonidoMuerteJugador" type="AudioStreamPlayer2D" parent="Sonido"]
+stream = ExtResource("9_pnlcv")
 
-[connection signal="timeout" from="AutoGuardado" to="." method="_on_auto_guardado_timeout"]
-[connection signal="timeout" from="TimerSpawn" to="." method="_on_timer_timeout"]
+[node name="Timers" type="Node" parent="."]
+
+[node name="TimerSpawn" type="Timer" parent="Timers"]
+wait_time = 3.0
+autostart = true
+
+[node name="AutoGuardado" type="Timer" parent="Timers"]
+wait_time = 60.0
+autostart = true
+
+[connection signal="timeout" from="Timers/TimerSpawn" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="Timers/AutoGuardado" to="." method="_on_auto_guardado_timeout"]

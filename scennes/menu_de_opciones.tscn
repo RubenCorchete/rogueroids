@@ -1,0 +1,86 @@
+[gd_scene load_steps=5 format=3 uid="uid://dqxmiw56ynu8f"]
+
+[ext_resource type="FontFile" uid="uid://eno2cvxdrdvd" path="res://assets/fuentes/Kenney Blocks.ttf" id="1_g2u3l"]
+[ext_resource type="Script" path="res://scennes/menu_de_opciones.gd" id="1_ws8le"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_qerp0"]
+font = ExtResource("1_g2u3l")
+font_size = 72
+
+[sub_resource type="LabelSettings" id="LabelSettings_b8p2e"]
+font = ExtResource("1_g2u3l")
+font_size = 40
+
+[node name="MenuDeOpciones" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ws8le")
+
+[node name="Titulo" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -216.0
+offset_top = -330.0
+offset_right = 224.0
+offset_bottom = -222.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "opciones"
+label_settings = SubResource("LabelSettings_qerp0")
+horizontal_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
+offset_left = 608.0
+offset_top = 254.0
+offset_right = 992.0
+offset_bottom = 685.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Puntuacion" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Volumen"
+label_settings = SubResource("LabelSettings_b8p2e")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 2
+
+[node name="Volumen" type="HSlider" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+max_value = 1.0
+step = 0.001
+value = 1.0
+
+[node name="BotonDeResetear" type="Button" parent="."]
+offset_left = 632.0
+offset_top = 608.0
+offset_right = 900.0
+offset_bottom = 688.0
+theme_override_fonts/font = ExtResource("1_g2u3l")
+theme_override_font_sizes/font_size = 48
+text = "Guardar"
+
+[node name="BotonDeSalir" type="Button" parent="."]
+layout_mode = 0
+offset_left = 632.0
+offset_top = 720.0
+offset_right = 900.0
+offset_bottom = 800.0
+theme_override_fonts/font = ExtResource("1_g2u3l")
+theme_override_font_sizes/font_size = 48
+text = "Salir"
+
+[connection signal="value_changed" from="MarginContainer/VBoxContainer/Volumen" to="." method="_on_volumen_value_changed"]
+[connection signal="pressed" from="BotonDeResetear" to="." method="_on_boton_de_guardar_pressed"]
+[connection signal="pressed" from="BotonDeSalir" to="." method="_on_boton_de_salir_pressed"]

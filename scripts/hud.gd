@@ -7,7 +7,6 @@ extends Control
 
 var uiEscena = preload("res://scennes/ui_vidas.tscn")
 
-
 func cambiarScore(cantidad):
 	puntuacion.text = "SCORE: " + str(cantidad)
 
