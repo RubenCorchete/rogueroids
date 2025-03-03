@@ -1,6 +1,6 @@
 extends Node
 
-var version = 1.04
+var version = 1.06
 var save_path = "user://save_game.dat"
 var jugando = false
 
@@ -10,7 +10,7 @@ var game_data : Dictionary = {
 	"tiempoEntreDisparos" : 0.8,
 	"vidasIniciales" : 1,
 	"vidas" : 1,
-	"version" : 1.04,
+	"version" : 1.06,
 	"puntosInicio" : 0,
 	"puntos" : 0,
 	"Mejoras" : {
@@ -19,7 +19,8 @@ var game_data : Dictionary = {
 	},
 	"Configuracion" : {
 		"volumen" : 0.5,
-		"Resolucion" : 0,
+		"resolucion" : Vector2i(1920, 1080),
+		"pantallaCompleta" : false, 
 	}
 }
 
@@ -28,7 +29,7 @@ var default_game_data : Dictionary = {
 	"velocidadDeRotacion" : 200,
 	"tiempoEntreDisparos" : 0.8,
 	"vidasIniciales" : 1,
-	"version" : 1.04,
+	"version" : 1.06,
 	"vidas" : 1,
 	"puntos" : 0,
 	"puntosInicio" : 0,
@@ -38,7 +39,8 @@ var default_game_data : Dictionary = {
 	},
 	"Configuracion" : {
 		"volumen" : 0.5,
-		"Resolucion" : 0,
+		"resolucion" : Vector2i(1920, 1080),
+		"pantallaCompleta" : false, 
 	}
 }
 
@@ -100,6 +102,62 @@ func set_mejora(nombre: String, valor: int) -> void:
 	if nombre in game_data["Mejoras"]:
 		game_data["Mejoras"][nombre] = max(valor, 0) # Evita valores negativos
 
+#Getters de los datos por defecto
+func get_default_velocidad_maxima_nave() -> float:
+	return default_game_data["velocidadMaximaDeLaNave"]
+
+func get_default_velocidad_rotacion() -> float:
+	return default_game_data["velocidadDeRotacion"]
+
+func get_default_tiempo_entre_disparos() -> float:
+	return default_game_data["tiempoEntreDisparos"]
+
+func get_default_vidas_iniciales() -> int:
+	return default_game_data["vidasIniciales"]
+
+func get_default_version() -> float:
+	return default_game_data["version"]
+
+func get_default_vidas() -> int:
+	return default_game_data["vidas"]
+
+func get_default_puntos() -> int:
+	return default_game_data["puntos"]
+
+func get_default_puntos_inicio() -> int:
+	return default_game_data["puntosInicio"]
+
+# Mejoras
+func get_default_mejora_1() -> int:
+	return default_game_data["Mejoras"]["Mejora1"]
+
+func get_default_mejora_2() -> int:
+	return default_game_data["Mejoras"]["Mejora2"]
+
+# Configuración
+func get_default_volumen() -> float:
+	return default_game_data["Configuracion"]["volumen"]
+
+func get_default_resolucion() -> Vector2i:
+	return default_game_data["Configuracion"]["resolucion"]
+
+func get_default_pantalla_completa() -> bool:
+	return default_game_data["Configuracion"]["pantallaCompleta"]
+	
+func get_resolucion() -> Vector2i:
+	return game_data["Configuracion"]["resolucion"]
+
+func set_resolucion(res: Vector2i) -> void:
+	game_data["Configuracion"]["resolucion"] = res
+
+# Getter y setter para la pantalla completa
+func get_pantalla_completa() -> bool:
+	return game_data["Configuracion"]["pantallaCompleta"]
+
+func set_pantalla_completa(fullscreen: bool) -> void:
+	game_data["Configuracion"]["pantallaCompleta"] = fullscreen
+
+#Funciones creadas
 func save_game() -> void:
 	var save_file = FileAccess.open(save_path, FileAccess.WRITE)
 	save_file.store_var(game_data)
@@ -121,5 +179,14 @@ func load_game() -> void:
 	set_config()
 	
 func set_config():
-	var volumen = game_data.get("Configuracion", {}).get("volumen", 0.5)
+	#Sonido
+	var volumen = game_data.get("Configuracion", {}).get("volumen")
 	AudioServer.set_bus_volume_db(0, linear_to_db(volumen))
+	
+	#Pantalla
+	if get_pantalla_completa():
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+		DisplayServer.window_set_size(Vector2i(1920, 1080))
+	else:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+		DisplayServer.window_set_size(get_resolucion())

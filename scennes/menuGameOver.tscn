@@ -24,15 +24,14 @@ offset_bottom = 40.0
 
 [node name="Titulo" type="Label" parent="MenuPrincipal"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = 13
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 492.0
-offset_top = 132.0
-offset_right = 1068.0
-offset_bottom = 240.0
+anchor_bottom = 1.0
+offset_left = 628.0
+offset_top = 152.0
+offset_right = 1260.0
+offset_bottom = 220.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Rogueroids
@@ -42,20 +41,27 @@ horizontal_alignment = 1
 
 [node name="BotonDeAjustes" type="Button" parent="MenuPrincipal"]
 layout_mode = 2
-offset_left = 1280.0
-offset_top = 776.0
-offset_right = 1552.0
-offset_bottom = 856.0
+offset_left = 1592.0
+offset_top = 936.0
+offset_right = 1864.0
+offset_bottom = 1016.0
 theme_override_fonts/font = ExtResource("1_plulq")
 theme_override_font_sizes/font_size = 48
 text = "Ajustes"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MenuPrincipal"]
-layout_mode = 0
-offset_left = 624.0
-offset_top = 304.0
-offset_right = 976.0
-offset_bottom = 708.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 15.8
+anchor_top = 7.6
+anchor_right = 24.4
+anchor_bottom = 17.7
+offset_left = 88.0
+offset_top = 72.0
+offset_right = 216.0
+offset_bottom = 196.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="BotonDeInicio" type="Button" parent="MenuPrincipal/VBoxContainer"]
 layout_mode = 2

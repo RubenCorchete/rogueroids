@@ -16,14 +16,14 @@
 
 [sub_resource type="Curve2D" id="Curve2D_2hede"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, 1601, -2, 0, 0, 0, 0, 1600, 899, 0, 0, 0, 0, 0, 899, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1600, -3)
+"points": PackedVector2Array(0, 0, 0, 0, 1601, -2, 0, 0, 0, 0, 1603.5, 1080, 0, 0, 0, 0, 808.417, 1080, 0, 0, 0, 0, 0.83342, 1083, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1600, -3)
 }
-point_count = 5
+point_count = 6
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_x3xt8"]
 particle_flag_disable_z = true
 emission_shape = 3
-emission_box_extents = Vector3(1, 450, 1)
+emission_box_extents = Vector3(1, 540, 1)
 spread = 0.0
 initial_velocity_min = -10.0
 initial_velocity_max = -10.0
@@ -32,7 +32,7 @@ gravity = Vector3(0, 0, 0)
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_07rwv"]
 particle_flag_disable_z = true
 emission_shape = 3
-emission_box_extents = Vector3(1, 450, 1)
+emission_box_extents = Vector3(1, 540, 1)
 spread = 0.0
 initial_velocity_min = -30.0
 initial_velocity_max = -30.0
@@ -43,7 +43,7 @@ scale_max = 3.0
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ef4sv"]
 particle_flag_disable_z = true
 emission_shape = 3
-emission_box_extents = Vector3(1, 450, 1)
+emission_box_extents = Vector3(1, 540, 1)
 spread = 0.0
 initial_velocity_min = -30.0
 initial_velocity_max = -30.0
@@ -63,11 +63,12 @@ stream_3/stream = ExtResource("11_xlxo7")
 script = ExtResource("1_n5x7e")
 
 [node name="PathGenerarMobs" type="Path2D" parent="."]
+scale = Vector2(1.19988, 1)
 curve = SubResource("Curve2D_2hede")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="PathGenerarMobs"]
-position = Vector2(1600.5, 449.912)
-rotation = 1.57191
+position = Vector2(1602.04, 449.911)
+rotation = 1.56849
 progress = 451.912
 
 [node name="UI" type="CanvasLayer" parent="."]
@@ -81,15 +82,15 @@ visible = false
 
 [node name="LLuviaDeEstrellasTrasera" type="GPUParticles2D" parent="FondoDelJuego"]
 z_index = -100
-position = Vector2(1622, 450)
+position = Vector2(2020, 540)
 amount = 1000
 process_material = SubResource("ParticleProcessMaterial_x3xt8")
-lifetime = 170.0
+lifetime = 240.0
 preprocess = 280.0
 
 [node name="LLuviaDeEstrellasMedia" type="GPUParticles2D" parent="FondoDelJuego"]
 z_index = -95
-position = Vector2(1622, 450)
+position = Vector2(2020, 540)
 amount = 250
 process_material = SubResource("ParticleProcessMaterial_07rwv")
 lifetime = 120.0
@@ -97,7 +98,7 @@ preprocess = 280.0
 
 [node name="LLuviaDeEstrellasFrontal" type="GPUParticles2D" parent="FondoDelJuego"]
 z_index = -90
-position = Vector2(1622, 450)
+position = Vector2(2020, 540)
 amount = 30
 process_material = SubResource("ParticleProcessMaterial_ef4sv")
 lifetime = 170.0
@@ -108,22 +109,22 @@ preprocess = 280.0
 [node name="AsteroidesIniciales" type="Node" parent="."]
 
 [node name="Asteroide" parent="AsteroidesIniciales" instance=ExtResource("3_yfkqa")]
-position = Vector2(359, 409)
+position = Vector2(392, 560)
 
 [node name="Asteroide2" parent="AsteroidesIniciales" instance=ExtResource("3_yfkqa")]
-position = Vector2(417, 650)
+position = Vector2(416, 864)
 
 [node name="Asteroide3" parent="AsteroidesIniciales" instance=ExtResource("3_yfkqa")]
-position = Vector2(1117, 616)
+position = Vector2(1496, 808)
 
 [node name="Asteroide4" parent="AsteroidesIniciales" instance=ExtResource("3_yfkqa")]
-position = Vector2(1042, 223)
+position = Vector2(1496, 200)
 
 [node name="Asteroide5" parent="AsteroidesIniciales" instance=ExtResource("3_yfkqa")]
-position = Vector2(472, 225)
+position = Vector2(456, 152)
 
 [node name="ZonaDeReaparicion" type="Node2D" parent="."]
-position = Vector2(800, 450)
+position = Vector2(888, 544)
 
 [node name="SpawnJugador" parent="ZonaDeReaparicion" instance=ExtResource("6_hu44s")]
 

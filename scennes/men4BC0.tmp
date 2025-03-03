@@ -86,6 +86,7 @@ popup/item_2/id = 2
 
 [node name="PantallaCompleta" type="CheckBox" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
+button_pressed = true
 text = "Pantalla Completa"
 
 [node name="MarginContainer3" type="MarginContainer" parent="MarginContainer/VBoxContainer"]

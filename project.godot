@@ -21,9 +21,11 @@ GLOBAL="*res://scripts/GLOBAL.gd"
 
 [display]
 
-window/size/viewport_width=1600
-window/size/viewport_height=900
+window/size/viewport_width=1920
+window/size/viewport_height=1080
 window/size/resizable=false
+window/stretch/mode="viewport"
+window/stretch/aspect="expand"
 mouse_cursor/custom_image="res://assets/Cursores/cursor_h.png"
 
 [input]
@@ -70,3 +72,7 @@ reset={
 [rendering]
 
 environment/defaults/default_clear_color=Color(0, 0, 0, 1)
+anti_aliasing/quality/msaa_2d=3
+anti_aliasing/quality/msaa_3d=3
+anti_aliasing/quality/screen_space_aa=1
+anti_aliasing/quality/use_taa=true

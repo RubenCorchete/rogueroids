@@ -28,7 +28,7 @@ func _ready() -> void:
 		pantallaDeGameOver.visible = true
 	else:
 		musicaMenu.stop()
-		jugador.position = Vector2(800, 450)
+		jugador.position = Vector2(960, 540)
 		add_child(jugador)
 
 	jugador.connect("disparoLaser", _disparoJugador)
