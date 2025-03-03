@@ -44,13 +44,6 @@ var default_game_data : Dictionary = {
 	}
 }
 
-func reiniciar_partida():
-	var save_file = FileAccess.open(save_path, FileAccess.WRITE)
-	save_file.store_var(default_game_data)
-	save_file = null
-	
-	load_game()
-
 # Getters
 func get_volumen() -> float:
 	return game_data.get("Configuracion").get("volumen")
@@ -168,8 +161,7 @@ func load_game() -> void:
 
 	if FileAccess.file_exists(save_path):
 		var versionArchivo = save_file.get_var()
-		print(versionArchivo.has("version"))
-		
+
 		if versionArchivo.has("version") and versionArchivo["version"] == version:
 			game_data = versionArchivo
 	else:
@@ -190,3 +182,21 @@ func set_config():
 	else:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 		DisplayServer.window_set_size(get_resolucion())
+
+func reiniciar_partida():
+	var save_file = FileAccess.open(save_path, FileAccess.WRITE)
+
+	# Verificar que default_game_data no sea null
+	if default_game_data:
+		var default_game_data_con_config = default_game_data.duplicate(true)
+
+		# Verificar que game_data["configuracion"] exista antes de copiarlo
+		if game_data.has("configuracion"):
+			default_game_data_con_config["configuracion"] = game_data["configuracion"].duplicate(true)
+		
+		# Guardar los datos reiniciados
+		save_file.store_var(default_game_data_con_config)
+		save_file = null
+		
+	save_game()
+	load_game()
