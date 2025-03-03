@@ -1,6 +1,6 @@
 extends Node
 
-var version = 1.06
+var version = 1.07
 var save_path = "user://save_game.dat"
 var jugando = false
 
@@ -10,7 +10,7 @@ var game_data : Dictionary = {
 	"tiempoEntreDisparos" : 0.8,
 	"vidasIniciales" : 1,
 	"vidas" : 1,
-	"version" : 1.06,
+	"version" : 1.07,
 	"puntosInicio" : 0,
 	"puntos" : 0,
 	"Mejoras" : {
@@ -20,7 +20,7 @@ var game_data : Dictionary = {
 	"Configuracion" : {
 		"volumen" : 0.5,
 		"resolucion" : Vector2i(1920, 1080),
-		"pantallaCompleta" : false, 
+		"pantallaCompleta" : true, 
 	}
 }
 
@@ -29,7 +29,7 @@ var default_game_data : Dictionary = {
 	"velocidadDeRotacion" : 200,
 	"tiempoEntreDisparos" : 0.8,
 	"vidasIniciales" : 1,
-	"version" : 1.06,
+	"version" : 1.07,
 	"vidas" : 1,
 	"puntos" : 0,
 	"puntosInicio" : 0,
@@ -40,7 +40,7 @@ var default_game_data : Dictionary = {
 	"Configuracion" : {
 		"volumen" : 0.5,
 		"resolucion" : Vector2i(1920, 1080),
-		"pantallaCompleta" : false, 
+		"pantallaCompleta" : true, 
 	}
 }
 
