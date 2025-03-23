@@ -47,8 +47,9 @@ func _physics_process(delta):
 	if input_vector.y == 0: #Si no se pulsa ninguna tecla
 		velocity = velocity.move_toward(Vector2.ZERO, 3) #Reducimos la velocidad de 3 en 3 hasta 0
 	
-	velocity += input_vector.rotated(rotation) * aceleracion #Velocidad de la nave, para que parezca que no hay gravedad y que acelere hacia donde se gira
-	velocity = velocity.limit_length(velocidadMaximaDeLaNave) # aplico una velocidad maxima para la nave
+	if Input.is_action_pressed("move_up"):
+		velocity += input_vector.rotated(rotation) * aceleracion #Velocidad de la nave, para que parezca que no hay gravedad y que acelere hacia donde se gira
+		velocity = velocity.limit_length(velocidadMaximaDeLaNave) # aplico una velocidad maxima para la nave
 	
 	#estos dos if hacen el giro
 	if Input.is_action_pressed("rotate_right"):
