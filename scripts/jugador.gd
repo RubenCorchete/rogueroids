@@ -87,7 +87,7 @@ func morir():
 		zonaColision.set_deferred("disabled", true)
 		sonidoAceleracion.stop()
 		emit_signal("muerto")
-	
+
 func reaparecer(posicion):
 	if vivo == false:
 		vivo = true

@@ -27,6 +27,7 @@ func _ready() -> void:
 		musicaMenu.play()
 		pantallaDeGameOver.visible = true
 	else:
+		Input.mouse_mode = Input.MOUSE_MODE_CONFINED_HIDDEN
 		musicaMenu.stop()
 		jugador.position = Vector2(960, 540)
 		add_child(jugador)
@@ -93,6 +94,7 @@ func _jugadorMuerto():
 		jugador.reaparecer(zonaReaparicion.global_position)
 
 func mostrarMenuPrincipalAlMorir():
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	pantallaDeGameOver.visible = true
 	GLOBAL.jugando = false
 	jugador.morir()
