@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://denyfiea668r2"]
+[gd_scene load_steps=6 format=3 uid="uid://denyfiea668r2"]
 
 [ext_resource type="Script" path="res://scripts/menu_game_over.gd" id="1_7oqyb"]
 [ext_resource type="FontFile" uid="uid://eno2cvxdrdvd" path="res://assets/fuentes/Kenney Blocks.ttf" id="1_plulq"]
 [ext_resource type="PackedScene" uid="uid://dqxmiw56ynu8f" path="res://scennes/menu_de_opciones.tscn" id="2_ws2kr"]
+[ext_resource type="PackedScene" uid="uid://3afpshpakqk8" path="res://scennes/tienda_de_objetos.tscn" id="4_eb5xx"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_xwsh3"]
 font = ExtResource("1_plulq")
@@ -100,6 +101,10 @@ theme_override_font_sizes/font_size = 48
 text = "Salir"
 
 [node name="MenuDeAjustes" parent="." instance=ExtResource("2_ws2kr")]
+visible = false
+layout_mode = 1
+
+[node name="TiendaDeObjetos" parent="." instance=ExtResource("4_eb5xx")]
 visible = false
 layout_mode = 1
 
