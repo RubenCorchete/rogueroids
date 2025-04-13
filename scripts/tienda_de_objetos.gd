@@ -24,12 +24,13 @@ func _on_boton_de_salir_pressed() -> void:
 func _on_button_mejora_velocidad_disparo_button_up() -> void:
 	GLOBAL.set_mejora_velocidad_de_disparo()
 	VelocidadDeDisparo.disabled = true
-	referencia_a_game.actualizar_hud()
+	referencia_a_game.actualizar_hud_score()
 	
 func _on_button_mejora_add_vida_button_up() -> void:
 	GLOBAL.set_mejora_add_vidas()
 	AddVida.disabled = true
-	referencia_a_game.actualizar_hud()
+	referencia_a_game.actualizar_hud_score()
+	referencia_a_game.actualizar_hud_vidas()
 
 func comprobarMejorasDisponibles():
 	var mejorasDisponibles = GLOBAL.obtenerMejoras()

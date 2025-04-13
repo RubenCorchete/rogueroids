@@ -124,7 +124,9 @@ func actualizarPuntuacionVidasReinicio():
 	hud.cambiarScore(puntuacion)
 	hud.iniciarVidas(vidas)
 
-func actualizar_hud():
+func actualizar_hud_score():
 	hud.cambiarScore(GLOBAL.get_puntos())
-	hud.iniciarVidas(GLOBAL.get_vidas())
+
 	
+func actualizar_hud_vidas():
+	hud.iniciarVidas(GLOBAL.get_vidas())
