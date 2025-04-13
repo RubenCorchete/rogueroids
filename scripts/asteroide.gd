@@ -67,7 +67,7 @@ func explosion():
 	queue_free()
 
 func _on_body_entered(body: Node2D) -> void:
-	if body is Jugador:
+	if body is Jugador or Jugador2Cañones:
 		var jugador = body 
 		jugador.morir()
 

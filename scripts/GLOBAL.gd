@@ -1,6 +1,6 @@
 extends Node
 
-var version = 1.09
+var version = 1.10
 var save_path = "user://save_game.dat"
 var jugando = false
 
@@ -8,9 +8,10 @@ var game_data : Dictionary = {
 	"velocidadMaximaDeLaNave" : 250,
 	"velocidadDeRotacion" : 200,
 	"tiempoEntreDisparos" : 0.8,
+	"numeroCañones" : 1,
 	"vidasIniciales" : 1,
 	"vidas" : 1,
-	"version" : 1.09,
+	"version" : 1.10,
 	"puntosInicio" : 0,
 	"puntos" : 0,
 	"Mejoras" : {
@@ -23,6 +24,11 @@ var game_data : Dictionary = {
 			"coste" : 20,
 			"activa" : false,
 			"nuevaCantidadVidas" : 2
+		},
+		"DobleCañon" : {
+			"coste" : 20,
+			"activa" : false,
+			"numeroCañones" : 2
 		}
 	},
 	"Configuracion" : {
@@ -36,8 +42,9 @@ var default_game_data : Dictionary = {
 	"velocidadMaximaDeLaNave" : 250,
 	"velocidadDeRotacion" : 200,
 	"tiempoEntreDisparos" : 0.8,
+	"numeroCañones" : 1,
 	"vidasIniciales" : 1,
-	"version" : 1.09,
+	"version" : 1.10,
 	"vidas" : 1,
 	"puntos" : 0,
 	"puntosInicio" : 0,
@@ -51,6 +58,11 @@ var default_game_data : Dictionary = {
 			"coste" : 20,
 			"activa" : false,
 			"nuevaCantidadVidas" : 2
+		},
+		"DobleCañon" : {
+			"coste" : 20,
+			"activa" : false,
+			"numeroCañones" : 2
 		}
 	},
 	"Configuracion" : {
@@ -73,7 +85,15 @@ func set_mejora_add_vidas():
 	set_puntos(get_puntos() - game_data["Mejoras"]["AddVida"]["coste"])
 	set_vidas(game_data["Mejoras"]["AddVida"]["nuevaCantidadVidas"])
 
+func set_mejora_dos_cañones():
+	game_data["Mejoras"]["DobleCañon"]["activa"] = true
+	set_puntos(get_puntos() - game_data["Mejoras"]["DobleCañon"]["coste"])
+	set_cañones(game_data["Mejoras"]["DobleCañon"]["numeroCañones"])
+
 # Getters
+func get_numero_cañones() -> int:
+	return game_data.get("numeroCañones")
+
 func get_volumen() -> float:
 	return game_data.get("Configuracion").get("volumen")
 
@@ -99,6 +119,9 @@ func get_mejora(nombre: String) -> int:
 	return game_data["Mejoras"].get(nombre, 0)
 
 # Setters
+func set_cañones(valor: int) -> void:
+	game_data["numeroCañones"] = valor
+	
 func set_volumen(valor: float) -> void:
 	game_data["Configuracion"]["volumen"] = valor
 

@@ -1,4 +1,4 @@
-class_name Jugador extends CharacterBody2D
+class_name Jugador2Cañones extends CharacterBody2D
 
 signal disparoLaser(laser)
 signal muerto
@@ -8,11 +8,13 @@ signal muerto
 @export var velocidadDeRotacion := GLOBAL.get_velocidad_rotacion()
 @export var tiempoEntreDisparos := GLOBAL.get_tiempo_entre_disparos()
 @onready var bocaDeCañon = $"BocaDeCañon"
-@onready var sprite = $"SpriteUnCañon"
+@onready var bocaDeCañon2 = $"BocaDeCañon2"
+@onready var sprite = $"SpriteDosCañones"
 @onready var estelaNave = $EstelaNave
 @onready var zonaColision = $CollisionShape2D
 @onready var sonidoAceleracion = $SonidoMovimiento
 
+var disparoDoble = 0
 var vivo := true
 var escenaLaser = preload("res://scennes/laser.tscn")
 var enfriamientoDeDisparo = false
@@ -76,9 +78,16 @@ func _physics_process(delta):
 	
 func dispararLaser():
 	var l = escenaLaser.instantiate()
-	l.global_position = bocaDeCañon.global_position
+	var l2 = escenaLaser.instantiate()
+	
+	l2.global_position = bocaDeCañon.global_position
+	l2.rotation = rotation
+	
+	l.global_position = bocaDeCañon2.global_position
 	l.rotation = rotation
+	
 	emit_signal("disparoLaser", l)
+	emit_signal("disparoLaser", l2)
 
 func morir():
 	if vivo == true:

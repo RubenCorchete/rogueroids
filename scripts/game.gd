@@ -15,10 +15,15 @@ class_name Game extends Node2D
 
 var vidas = GLOBAL.game_data["vidas"]
 var puntuacion = GLOBAL.game_data["puntos"]
-var jugador = preload("res://scennes/jugador.tscn").instantiate()
+var jugador 
 var escenaAsteroides = preload("res://scennes/asteroide.tscn")
 
 func _ready() -> void:
+	if GLOBAL.get_numero_cañones() == 1:
+		jugador = preload("res://scennes/jugador.tscn").instantiate()
+	else:
+		jugador = preload("res://scennes/jugador2cañones.tscn").instantiate()
+		
 	GLOBAL.load_game()
 	actualizarPuntuacionVidas()
 

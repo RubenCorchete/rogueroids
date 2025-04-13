@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://3afpshpakqk8"]
+[gd_scene load_steps=7 format=3 uid="uid://3afpshpakqk8"]
 
 [ext_resource type="Script" path="res://scripts/tienda_de_objetos.gd" id="1_pjw6u"]
 [ext_resource type="Texture2D" uid="uid://dwpc6n1tegxpp" path="res://assets/NavesJugador/Nave1/laserBlue01.png" id="2_1eems"]
 [ext_resource type="FontFile" uid="uid://eno2cvxdrdvd" path="res://assets/fuentes/Kenney Blocks.ttf" id="2_hkyum"]
 [ext_resource type="Texture2D" uid="uid://cr6inbfpebr8x" path="res://assets/NavesJugador/Nave1/vidaJugador.png" id="4_nw7ci"]
+[ext_resource type="Texture2D" uid="uid://bdxgvlqta777" path="res://assets/NavesJugador/Nave1/nave2cañones.png" id="5_8vurs"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_fq2j6"]
 font = ExtResource("2_hkyum")
@@ -35,19 +36,17 @@ text = "Tienda"
 label_settings = SubResource("LabelSettings_fq2j6")
 horizontal_alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 0
-offset_left = 512.0
-offset_top = 328.0
-offset_right = 1408.0
-offset_bottom = 808.0
-
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
+offset_left = 632.0
+offset_top = 328.0
+offset_right = 1288.0
+offset_bottom = 589.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="ButtonMejoraVelocidadDisparo" type="Button" parent="VBoxContainer/HBoxContainer"]
+[node name="ButtonMejoraVelocidadDisparo" type="Button" parent="HBoxContainer"]
+custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
 disabled = true
 text = "Aumento de valocidad 
@@ -61,11 +60,12 @@ de disparo
 icon = ExtResource("2_1eems")
 icon_alignment = 1
 
-[node name="VSeparator" type="VSeparator" parent="VBoxContainer/HBoxContainer"]
+[node name="VSeparator" type="VSeparator" parent="HBoxContainer"]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 
-[node name="ButtonMejoraAddVida" type="Button" parent="VBoxContainer/HBoxContainer"]
+[node name="ButtonMejoraAddVida" type="Button" parent="HBoxContainer"]
+custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
 disabled = true
 text = "Aumento de una Vida
@@ -79,23 +79,27 @@ text = "Aumento de una Vida
 icon = ExtResource("4_nw7ci")
 icon_alignment = 1
 
-[node name="VSeparator2" type="VSeparator" parent="VBoxContainer/HBoxContainer"]
+[node name="VSeparator2" type="VSeparator" parent="HBoxContainer"]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 
-[node name="Button3" type="Button" parent="VBoxContainer/HBoxContainer"]
+[node name="ButtonMejoraCañones" type="Button" parent="HBoxContainer"]
+custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
 disabled = true
 text = "
+Doble Cañon      
 
 
 
 
 
-Aumento de valocidad 
-de disparo
+
+
+10000 puntos
+
 "
-icon = ExtResource("2_1eems")
+icon = ExtResource("5_8vurs")
 icon_alignment = 1
 
 [node name="Salir" type="Button" parent="."]
@@ -108,6 +112,7 @@ theme_override_fonts/font = ExtResource("2_hkyum")
 theme_override_font_sizes/font_size = 48
 text = "Salir"
 
-[connection signal="button_up" from="VBoxContainer/HBoxContainer/ButtonMejoraVelocidadDisparo" to="." method="_on_button_mejora_velocidad_disparo_button_up"]
-[connection signal="button_up" from="VBoxContainer/HBoxContainer/ButtonMejoraAddVida" to="." method="_on_button_mejora_add_vida_button_up"]
+[connection signal="button_up" from="HBoxContainer/ButtonMejoraVelocidadDisparo" to="." method="_on_button_mejora_velocidad_disparo_button_up"]
+[connection signal="button_up" from="HBoxContainer/ButtonMejoraAddVida" to="." method="_on_button_mejora_add_vida_button_up"]
+[connection signal="button_up" from="HBoxContainer/ButtonMejoraCañones" to="." method="_on_button_mejora_cañones_button_up"]
 [connection signal="pressed" from="Salir" to="." method="_on_boton_de_salir_pressed"]

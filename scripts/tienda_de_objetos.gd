@@ -5,8 +5,9 @@ var listaBotonesMejoras
 
 var referencia_a_game  # Aquí guardamos la referencia que viene desde arriba
 
-@onready var VelocidadDeDisparo = $VBoxContainer/HBoxContainer/ButtonMejoraVelocidadDisparo
-@onready var AddVida = $VBoxContainer/HBoxContainer/ButtonMejoraAddVida
+@onready var VelocidadDeDisparo = $HBoxContainer/ButtonMejoraVelocidadDisparo
+@onready var AddVida = $HBoxContainer/ButtonMejoraAddVida
+@onready var AddDosCañones = $"HBoxContainer/ButtonMejoraCañones"
 
 func _ready() -> void:
 	await get_tree().process_frame
@@ -31,11 +32,15 @@ func _on_button_mejora_add_vida_button_up() -> void:
 	AddVida.disabled = true
 	referencia_a_game.actualizar_hud_score()
 	referencia_a_game.actualizar_hud_vidas()
+	
+func _on_button_mejora_cañones_button_up() -> void:
+	GLOBAL.set_mejora_dos_cañones()
+	AddDosCañones.disabled = true
+	referencia_a_game.actualizar_hud_score()
 
 func comprobarMejorasDisponibles():
 	var mejorasDisponibles = GLOBAL.obtenerMejoras()
 	for mejora in mejorasDisponibles:
-			
 		match mejora:
 			"VelocidadDeDisparo":
 				if comprobarSiHaySuficientesPuntos(mejorasDisponibles, mejora) and mejorasDisponibles[mejora]["activa"] != true:
@@ -43,6 +48,10 @@ func comprobarMejorasDisponibles():
 			"AddVida":
 				if comprobarSiHaySuficientesPuntos(mejorasDisponibles, mejora) and mejorasDisponibles[mejora]["activa"] != true:
 					habilitarBoton(AddVida)
+			"DobleCañon":
+				if comprobarSiHaySuficientesPuntos(mejorasDisponibles, mejora) and mejorasDisponibles[mejora]["activa"] != true:
+					habilitarBoton(AddDosCañones)
+
 
 func habilitarBoton(boton: Button):
 		boton.disabled = false
