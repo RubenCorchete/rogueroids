@@ -79,7 +79,6 @@ func spawn_asteroides(pos, size):
 	
 func _jugadorMuerto():
 	sonidoMuerteJugador.play()
-	var posicionNaveMuerta = jugador.global_position
 	vidas -= 1
 	hud.iniciarVidas(vidas)
 	jugador.global_position = areaDeSpawnDelJugador.global_position
@@ -124,3 +123,6 @@ func actualizarPuntuacionVidasReinicio():
 	vidas = GLOBAL.game_data["vidasIniciales"]
 	hud.cambiarScore(puntuacion)
 	hud.iniciarVidas(vidas)
+
+func actualizar_hud():
+	hud.cambiarScore(GLOBAL.get_puntos())

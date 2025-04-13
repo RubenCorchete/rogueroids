@@ -1,6 +1,6 @@
 extends Node
 
-var version = 1.07
+var version = 1.08
 var save_path = "user://save_game.dat"
 var jugando = false
 
@@ -10,12 +10,15 @@ var game_data : Dictionary = {
 	"tiempoEntreDisparos" : 0.8,
 	"vidasIniciales" : 1,
 	"vidas" : 1,
-	"version" : 1.07,
+	"version" : 1.08,
 	"puntosInicio" : 0,
 	"puntos" : 0,
 	"Mejoras" : {
-		"Mejora1" : 0,
-		"Mejora2" : 0,
+		"VelocidadDeDisparo" : {
+			"coste" : 20,
+			"activa" : false,
+			"nuevaVelocidadDeDisparo" : 0.2
+		}
 	},
 	"Configuracion" : {
 		"volumen" : 0.5,
@@ -29,13 +32,16 @@ var default_game_data : Dictionary = {
 	"velocidadDeRotacion" : 200,
 	"tiempoEntreDisparos" : 0.8,
 	"vidasIniciales" : 1,
-	"version" : 1.07,
+	"version" : 1.08,
 	"vidas" : 1,
 	"puntos" : 0,
 	"puntosInicio" : 0,
 	"Mejoras" : {
-		"Mejora1" : 0,
-		"Mejora2" : 0,
+		"VelocidadDeDisparo" : {
+			"coste" : 20,
+			"activa" : false,
+			"nuevaVelocidadDeDisparo" : 0.2
+		}
 	},
 	"Configuracion" : {
 		"volumen" : 0.5,
@@ -43,6 +49,14 @@ var default_game_data : Dictionary = {
 		"pantallaCompleta" : true, 
 	}
 }
+#Mejoras
+func obtenerMejoras() -> Dictionary:
+	return game_data["Mejoras"]
+	
+func set_mejora_velocidad_de_disparo():
+	game_data["Mejoras"]["VelocidadDeDisparo"]["activa"] = true
+	set_puntos(get_puntos() - game_data["Mejoras"]["VelocidadDeDisparo"]["coste"])
+	set_tiempo_entre_disparos(game_data["Mejoras"]["VelocidadDeDisparo"]["nuevaVelocidadDeDisparo"])
 
 # Getters
 func get_volumen() -> float:
