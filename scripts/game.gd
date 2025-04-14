@@ -4,6 +4,7 @@ class_name Game extends Node2D
 # Referencias a nodos importantes de la escena
 @onready var lasers = $Lasers
 @onready var asteroides = $AsteroidesIniciales
+@onready var navesEnemigas = $NavesEnemigas
 @onready var hud = $UI/HUD
 @onready var pantallaDeGameOver = $UI/MenuPrincipal
 @onready var zonaReaparicion = $ZonaDeReaparicion
@@ -16,14 +17,13 @@ class_name Game extends Node2D
 @onready var sonidoGolpearAsteroide = $Sonido/SonidoGolpearAsteroide
 @onready var sonidoMuerteJugador = $Sonido/SonidoMuerteJugador
 
-# Zona de generación de Mobs
-@onready var generadorDeMobs = $PathGenerarMobs/PathFollow2D
-
 # Variables que contienen el estado del juego
 var vidas = GLOBAL.game_data["vidas"]
 var puntuacion = GLOBAL.game_data["puntos"]
 var jugador = null
+
 var escenaAsteroides = preload("res://scennes/asteroide.tscn")
+var escenaNavesEnemigas = preload("res://scennes/naveEnemiga.tscn")
 
 func _ready() -> void:
 	# Cargamos una nave u otra en base a si tenemos la mejora de cañones o no
@@ -52,21 +52,22 @@ func _ready() -> void:
 	jugador.connect("disparoLaser", _disparoJugador)
 	jugador.connect("muerto", _jugadorMuerto)
 	
-	for asteroide in asteroides.get_children():
-		asteroide.connect("explotar", _asteroideExplotado)
+	for asteroidesAlamacenados in asteroides.get_children():
+		asteroidesAlamacenados.connect("explotar", _asteroideExplotado)
 	
 func _process(delta):
-	
 	# Lógica de los sonidos
 	if !GLOBAL.jugando and !musicaMenu.is_playing():
 		musicaInGame.stop()
-		musicaMenu.play()	
+		musicaMenu.play()
 		
 	if GLOBAL.jugando and !musicaInGame.is_playing():
 		musicaMenu.stop()
 		musicaInGame.play()
-
-
+		
+	if !GLOBAL.jugando and navesEnemigas != null:
+		navesEnemigas.queue_free()
+		
 func _disparoJugador(laser):
 	# Generamos un laser y ejecutamos el sonido de laser
 	disparoJugador.play()
@@ -92,6 +93,16 @@ func _asteroideExplotado(posicion, tamaño, puntos):
 				spawn_asteroides(posicion, asteroide.TamañosDeAsteroides.PEQUEÑO)
 			asteroide.TamañosDeAsteroides.PEQUEÑO:
 				pass
+
+func _naveExplotada(posicion, puntos):
+	# Se ejecuta el sonido de explosión de asteroide
+	sonidoGolpearAsteroide.play()
+	
+	# Se suman los puntos por explotarlo
+	GLOBAL.set_añadir_puntos(puntos)
+	
+	# Se actualiza el HUD
+	hud.puntuacion = GLOBAL.get_puntos()
 
 # Genera un asteroide en la posición y del tamaño pasado por parametro.
 func spawn_asteroides(pos, size):
@@ -133,10 +144,28 @@ func mostrarMenuPrincipalAlMorir():
 # Esta función genera asteroides en base a un timer
 func _on_timer_timeout() -> void:
 	if GLOBAL.jugando:
-		generadorDeMobs.progress_ratio = randf()
-		var a = escenaAsteroides.instantiate() 
-		a.connect("explotar", _asteroideExplotado)
-		asteroides.add_child(a)
+		crear_enemigo_asteroide()
+		crear_enemigo_nave()
+		
+func crear_enemigo_asteroide():
+	var a = escenaAsteroides.instantiate()
+	a.global_position = obtener_posicion_fuera_de_pantalla()
+	a.rotation = obtener_rotacion_hacia_centro(a.global_position)
+	a.connect("explotar", _asteroideExplotado)
+	asteroides.add_child(a)
+
+func crear_enemigo_nave():
+	var escenaNave = preload("res://scennes/naveEnemiga.tscn")
+	var nuevaNave = escenaNave.instantiate()
+
+	var posicionInicial = obtener_posicion_fuera_de_pantalla()
+	nuevaNave.global_position = posicionInicial
+
+	var direccion = (jugador.global_position - posicionInicial).angle()
+	nuevaNave.rotation = direccion
+	nuevaNave.iniciar_direccion(jugador.global_position)
+
+	add_child(nuevaNave)
 
 # Guardado automático de la partida
 func _on_auto_guardado_timeout() -> void:
@@ -164,3 +193,20 @@ func actualizar_hud_score():
 # Refresca la información de las vidas en el HUD	
 func actualizar_hud_vidas():
 	hud.iniciarVidas(GLOBAL.get_vidas())
+
+# Se calcula una posición aleatoria fuera de la pantalla para generar los enemigos
+func obtener_posicion_fuera_de_pantalla() -> Vector2:
+	var pantalla = get_viewport().get_visible_rect().size
+	var margen = 50  # distancia desde el borde
+	var lado = randi() % 4
+	match lado:
+		0: return Vector2(randf_range(0, pantalla.x), -margen) # arriba
+		1: return Vector2(randf_range(0, pantalla.x), pantalla.y + margen) # abajo
+		2: return Vector2(-margen, randf_range(0, pantalla.y)) # izquierda
+		3: return Vector2(pantalla.x + margen, randf_range(0, pantalla.y)) # derecha
+	return Vector2.ZERO
+
+# esta función hace que aparezcan los enemigos en dirección al jugador
+func obtener_rotacion_hacia_centro(pos: Vector2) -> float:
+	var centro = get_viewport().get_visible_rect().size / 2
+	return (centro - pos).angle()
