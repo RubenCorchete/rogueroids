@@ -1,12 +1,17 @@
+# Script de la nave con  dos cañones
 class_name Jugador2Cañones extends CharacterBody2D
 
+# Señales del Script
 signal disparoLaser(laser)
 signal muerto
 
+# Variables usadas para la gestión de la nave
 @export var aceleracion := 10 #Aceleracion de la nave
 @export var velocidadMaximaDeLaNave := GLOBAL.get_velocidad_maxima()
 @export var velocidadDeRotacion := GLOBAL.get_velocidad_rotacion()
 @export var tiempoEntreDisparos := GLOBAL.get_tiempo_entre_disparos()
+
+# Referencias de los nodos hijo
 @onready var bocaDeCañon = $"BocaDeCañon"
 @onready var bocaDeCañon2 = $"BocaDeCañon2"
 @onready var sprite = $"SpriteDosCañones"
@@ -14,6 +19,7 @@ signal muerto
 @onready var zonaColision = $CollisionShape2D
 @onready var sonidoAceleracion = $SonidoMovimiento
 
+# Estado del jugador
 var disparoDoble = 0
 var vivo := true
 var escenaLaser = preload("res://scennes/laser.tscn")
@@ -21,7 +27,9 @@ var enfriamientoDeDisparo = false
 
 func _process(delta):
 	
-	if !vivo: return 
+	if !vivo: return 	# Si el jugador esta muerto no se hace nada
+	
+	# Gestión del tiempo entre disparos
 	if Input.is_action_pressed("shoot"):
 		if !enfriamientoDeDisparo:
 			enfriamientoDeDisparo = true
@@ -31,7 +39,8 @@ func _process(delta):
 
 func _physics_process(delta):
 	if !vivo: return 
-	
+
+	# Gestión del giro	
 	var input_vector := Vector2(0, Input.get_axis("move_up", "move_down")) #Comprobar si se esta pulsando la W o la S
 
 	#Cuando se pulsa w sale una estela
@@ -60,8 +69,10 @@ func _physics_process(delta):
 	if Input.is_action_pressed("rotate_left"):
 		rotate(deg_to_rad(-velocidadDeRotacion*delta))		
 
+	# Movimiento de la nave.
 	move_and_slide()
-	
+
+	# Teletransporte por los bordes de la pantalla 
 	var tamanoPantalla = get_viewport_rect().size #Obtener el tamaño de la pantalla
 	
 	if global_position.y < 0: #Si la posición del jugador es menor a 0 osea se sale por encima de la pantalla
@@ -75,7 +86,8 @@ func _physics_process(delta):
 		global_position.x = tamanoPantalla.x 
 	elif global_position.x > tamanoPantalla.x: 
 		global_position.x = 0  
-	
+
+# Instancia y dispara un láser desde la boca del cañón.	
 func dispararLaser():
 	var l = escenaLaser.instantiate()
 	var l2 = escenaLaser.instantiate()
@@ -89,6 +101,7 @@ func dispararLaser():
 	emit_signal("disparoLaser", l)
 	emit_signal("disparoLaser", l2)
 
+# Marca al jugador como muerto, oculta sprite y colisión, y detiene sonidos.
 func morir():
 	if vivo == true:
 		vivo = false
@@ -98,6 +111,7 @@ func morir():
 		sonidoAceleracion.stop()
 		emit_signal("muerto")
 
+# Reaparece al jugador
 func reaparecer(posicion):
 	if vivo == false:
 		vivo = true
@@ -106,5 +120,6 @@ func reaparecer(posicion):
 		sprite.visible = true
 		zonaColision.set_deferred("disabled", false)
 
+# Para la estela
 func _on_estela_nave_animation_finished() -> void:
 	estelaNave.pause()
