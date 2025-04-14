@@ -1,36 +1,34 @@
+# Menú principal
 class_name menu extends Control
 
 @onready var menuAjustes = $MenuDeAjustes
 @onready var menuPrincipal = $MenuPrincipal
 
-
+# Función que inicia la aprtida
 func _on_boton_de_inicio_pressed() -> void:
 	GLOBAL.jugando = true
 	get_tree().reload_current_scene()
 
+# Botón de cerrar el juego
 func _on_boton_de_salir_pressed() -> void:
 	GLOBAL.save_game()
 	get_tree().quit()
 
+# Boón de abrir la tienda
 func _on_boton_de_compra_pressed() -> void:
-	
 	var tienda = preload("res://scennes/tienda_de_objetos.tscn").instantiate()
 	tienda.referencia_a_game = get_parent().get_parent()
 	add_child(tienda)
-	
 	tienda.obtener_menu_principal(menuPrincipal)
-	
-	
 	menuPrincipal.visible = false
 
-
+# Botón de resetear partidaa
 func _on_boton_de_restart_partida_pressed() -> void:
 	GLOBAL.reiniciar_partida()
 	get_parent().get_parent().actualizarPuntuacionVidasReinicio() #Obtener escena game
 	
-	
+# Botón de ajustes
 func _on_boton_de_ajustes_pressed() -> void:
 	menuAjustes.obtener_menu_principal(menuPrincipal)
 	menuPrincipal.visible = false
 	menuAjustes.visible = true
-	
