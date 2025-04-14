@@ -149,5 +149,6 @@ autostart = true
 
 [node name="Pausa" parent="." instance=ExtResource("14_nxfwm")]
 
+[connection signal="area_entered" from="ZonaDeReaparicion/SpawnJugador" to="ZonaDeReaparicion/SpawnJugador" method="_limpiar_zona_spawn"]
 [connection signal="timeout" from="Timers/TimerSpawnAsteroides" to="." method="_on_timer_timeout"]
 [connection signal="timeout" from="Timers/AutoGuardado" to="." method="_on_auto_guardado_timeout"]

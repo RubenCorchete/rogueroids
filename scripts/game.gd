@@ -124,7 +124,9 @@ func _jugadorMuerto():
 		await get_tree().create_timer(2).timeout
 		mostrarMenuPrincipalAlMorir()
 	else:
+		areaDeSpawnDelJugador.controlLimpiezaZonaReaparicion()
 		await get_tree().create_timer(1).timeout
+		areaDeSpawnDelJugador.controlLimpiezaZonaReaparicion()
 		while !areaDeSpawnDelJugador.estaVacio:
 			await get_tree().create_timer(0.1).timeout
 		jugador.reaparecer(zonaReaparicion.global_position)
@@ -165,7 +167,7 @@ func crear_enemigo_nave():
 	nuevaNave.rotation = direccion
 	nuevaNave.iniciar_direccion(jugador.global_position)
 
-	add_child(nuevaNave)
+	navesEnemigas.add_child(nuevaNave)
 
 # Guardado automático de la partida
 func _on_auto_guardado_timeout() -> void:
