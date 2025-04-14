@@ -1,42 +1,54 @@
+# Clase principal del juego. Se encarga de la lógica general y del control de los elementos principales.
 class_name Game extends Node2D
 
+# Referencias a nodos importantes de la escena
 @onready var lasers = $Lasers
 @onready var asteroides = $AsteroidesIniciales
 @onready var hud = $UI/HUD
 @onready var pantallaDeGameOver = $UI/MenuPrincipal
 @onready var zonaReaparicion = $ZonaDeReaparicion
 @onready var areaDeSpawnDelJugador = $ZonaDeReaparicion/SpawnJugador
+
+# Sonidos del juego
 @onready var musicaMenu = $Sonido/MusicaMenu
 @onready var musicaInGame = $Sonido/MusicaInGame
 @onready var disparoJugador = $Sonido/SonidoLaser
 @onready var sonidoGolpearAsteroide = $Sonido/SonidoGolpearAsteroide
 @onready var sonidoMuerteJugador = $Sonido/SonidoMuerteJugador
+
+# Zona de generación de Mobs
 @onready var generadorDeMobs = $PathGenerarMobs/PathFollow2D
 
+# Variables que contienen el estado del juego
 var vidas = GLOBAL.game_data["vidas"]
 var puntuacion = GLOBAL.game_data["puntos"]
-var jugador 
+var jugador = null
 var escenaAsteroides = preload("res://scennes/asteroide.tscn")
 
 func _ready() -> void:
+	# Cargamos una nave u otra en base a si tenemos la mejora de cañones o no
 	if GLOBAL.get_numero_cañones() == 1:
 		jugador = preload("res://scennes/jugador.tscn").instantiate()
 	else:
 		jugador = preload("res://scennes/jugador2cañones.tscn").instantiate()
-		
+	
+	# Cargamos los datos almacenados del juego
 	GLOBAL.load_game()
+	
+	# Actualizamos el hud
 	actualizarPuntuacionVidas()
 
-	#Logica de aparición del menú
+	# Logica de aparición del menú
 	if !GLOBAL.jugando:
 		musicaMenu.play()
 		pantallaDeGameOver.visible = true
 	else:
-		Input.mouse_mode = Input.MOUSE_MODE_CONFINED_HIDDEN
+		Input.mouse_mode = Input.MOUSE_MODE_CONFINED_HIDDEN # Si se esta jugando se esconde el ratón
 		musicaMenu.stop()
 		jugador.position = Vector2(960, 540)
 		add_child(jugador)
 
+	# Conecto las señales del jugador
 	jugador.connect("disparoLaser", _disparoJugador)
 	jugador.connect("muerto", _jugadorMuerto)
 	
@@ -45,6 +57,7 @@ func _ready() -> void:
 	
 func _process(delta):
 	
+	# Lógica de los sonidos
 	if !GLOBAL.jugando and !musicaMenu.is_playing():
 		musicaInGame.stop()
 		musicaMenu.play()	
@@ -52,20 +65,25 @@ func _process(delta):
 	if GLOBAL.jugando and !musicaInGame.is_playing():
 		musicaMenu.stop()
 		musicaInGame.play()
-		
-	if Input.is_action_just_pressed("reset"):
-		get_tree().reload_current_scene()
+
 
 func _disparoJugador(laser):
+	# Generamos un laser y ejecutamos el sonido de laser
 	disparoJugador.play()
 	lasers.add_child(laser)
 
+	# Esta función es llamada cuando explota un asteroide
 func _asteroideExplotado(posicion, tamaño, puntos):
+	# Se ejecuta el sonido de explosión de asteroide
 	sonidoGolpearAsteroide.play()
 	
+	# Se suman los puntos por explotarlo
 	GLOBAL.set_añadir_puntos(puntos)
+	
+	# Se actualiza el HUD
 	hud.puntuacion = GLOBAL.get_puntos()
 	
+	# Se actualiza el tamaño del asteroide
 	for i in range(2):
 		match tamaño:
 			asteroide.TamañosDeAsteroides.GRANDE:
@@ -75,6 +93,7 @@ func _asteroideExplotado(posicion, tamaño, puntos):
 			asteroide.TamañosDeAsteroides.PEQUEÑO:
 				pass
 
+# Genera un asteroide en la posición y del tamaño pasado por parametro.
 func spawn_asteroides(pos, size):
 	var a = escenaAsteroides.instantiate()
 	a.global_position = pos
@@ -82,12 +101,14 @@ func spawn_asteroides(pos, size):
 	a.connect("explotar", _asteroideExplotado)
 	asteroides.call_deferred("add_child", a)
 	
+# Se llama cuando el jugador muere.
 func _jugadorMuerto():
 	sonidoMuerteJugador.play()
 	vidas -= 1
 	hud.iniciarVidas(vidas)
 	jugador.global_position = areaDeSpawnDelJugador.global_position
 	
+	# Si no tiene vidas se muestra el menu principal y si tiene sigue jugando
 	if vidas <= 0:
 		await get_tree().create_timer(2).timeout
 		mostrarMenuPrincipalAlMorir()
@@ -97,15 +118,19 @@ func _jugadorMuerto():
 			await get_tree().create_timer(0.1).timeout
 		jugador.reaparecer(zonaReaparicion.global_position)
 
+# Muestra el menú principal
 func mostrarMenuPrincipalAlMorir():
-	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE # Hace el ratón visible
 	pantallaDeGameOver.visible = true
+	
+	# Actualiza los datos del jugador
 	GLOBAL.jugando = false
 	jugador.morir()
 	vidas = GLOBAL.get_vidas_maximas()
 	actualizarPuntuacionVidas()
 	GLOBAL.save_game()
 
+# Esta función genera asteroides en base a un timer
 func _on_timer_timeout() -> void:
 	if GLOBAL.jugando:
 		generadorDeMobs.progress_ratio = randf()
@@ -113,25 +138,29 @@ func _on_timer_timeout() -> void:
 		a.connect("explotar", _asteroideExplotado)
 		asteroides.add_child(a)
 
+# Guardado automático de la partida
 func _on_auto_guardado_timeout() -> void:
 	if GLOBAL.jugando:
 		GLOBAL.save_game()
 
+# Refresca la información de las vidas en el HUD
 func actualizarPuntuacionVidas():
 	puntuacion = GLOBAL.game_data["puntos"]
 	vidas = GLOBAL.game_data["vidas"]
 	hud.cambiarScore(puntuacion)
 	hud.iniciarVidas(vidas)
-	
+
+# Refresca la información toda la información del HUD
 func actualizarPuntuacionVidasReinicio():
 	puntuacion = GLOBAL.game_data["puntosInicio"]
 	vidas = GLOBAL.game_data["vidasIniciales"]
 	hud.cambiarScore(puntuacion)
 	hud.iniciarVidas(vidas)
 
+# Refresca sólo la puntuación en el HUD.
 func actualizar_hud_score():
 	hud.cambiarScore(GLOBAL.get_puntos())
 
-	
+# Refresca la información de las vidas en el HUD	
 func actualizar_hud_vidas():
 	hud.iniciarVidas(GLOBAL.get_vidas())

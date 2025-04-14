@@ -4,40 +4,7 @@ var version = 1.10
 var save_path = "user://save_game.dat"
 var jugando = false
 
-var game_data : Dictionary = {
-	"velocidadMaximaDeLaNave" : 250,
-	"velocidadDeRotacion" : 200,
-	"tiempoEntreDisparos" : 0.8,
-	"numeroCañones" : 1,
-	"vidasIniciales" : 1,
-	"vidas" : 1,
-	"version" : 1.10,
-	"puntosInicio" : 0,
-	"puntos" : 0,
-	"Mejoras" : {
-		"VelocidadDeDisparo" : {
-			"coste" : 20,
-			"activa" : false,
-			"nuevaVelocidadDeDisparo" : 0.2
-		},
-		"AddVida" : {
-			"coste" : 20,
-			"activa" : false,
-			"nuevaCantidadVidas" : 2
-		},
-		"DobleCañon" : {
-			"coste" : 20,
-			"activa" : false,
-			"numeroCañones" : 2
-		}
-	},
-	"Configuracion" : {
-		"volumen" : 0.5,
-		"resolucion" : Vector2i(1920, 1080),
-		"pantallaCompleta" : true, 
-	}
-}
-
+# Datos y configuración por defecto del juego
 var default_game_data : Dictionary = {
 	"velocidadMaximaDeLaNave" : 250,
 	"velocidadDeRotacion" : 200,
@@ -71,20 +38,29 @@ var default_game_data : Dictionary = {
 		"pantallaCompleta" : true, 
 	}
 }
-#Mejoras
+
+# Datos actualizados de la partida y la configuración
+var game_data : Dictionary = default_game_data
+
+#MEJORAS
+
+# Devuelve las mejoras disponibles en el juego
 func obtenerMejoras() -> Dictionary:
 	return game_data["Mejoras"]
 	
+# Aplica la mejora de velocidad de disparo
 func set_mejora_velocidad_de_disparo():
 	game_data["Mejoras"]["VelocidadDeDisparo"]["activa"] = true
 	set_puntos(get_puntos() - game_data["Mejoras"]["VelocidadDeDisparo"]["coste"])
 	set_tiempo_entre_disparos(game_data["Mejoras"]["VelocidadDeDisparo"]["nuevaVelocidadDeDisparo"])
-	
+
+# Aplica la mejora de tener 2 vidas
 func set_mejora_add_vidas():
 	game_data["Mejoras"]["AddVida"]["activa"] = true
 	set_puntos(get_puntos() - game_data["Mejoras"]["AddVida"]["coste"])
 	set_vidas(game_data["Mejoras"]["AddVida"]["nuevaCantidadVidas"])
 
+# Aplica la mejora de tener dos cañones
 func set_mejora_dos_cañones():
 	game_data["Mejoras"]["DobleCañon"]["activa"] = true
 	set_puntos(get_puntos() - game_data["Mejoras"]["DobleCañon"]["coste"])
@@ -203,25 +179,33 @@ func set_pantalla_completa(fullscreen: bool) -> void:
 	game_data["Configuracion"]["pantallaCompleta"] = fullscreen
 
 #Funciones creadas
+
+# Esta función guarda la información de la partida en el archivo de congfiguración
 func save_game() -> void:
 	var save_file = FileAccess.open(save_path, FileAccess.WRITE)
 	save_file.store_var(game_data)
 	save_file = null #Cerrar el archivo
 	
+# Esta función carga la partida
 func load_game() -> void:
 	var save_file = FileAccess.open(save_path, FileAccess.READ)
 
+	# Comprobamos si hay un archivo de configuración existente
 	if FileAccess.file_exists(save_path):
 		var versionArchivo = save_file.get_var()
 
+		# Si hay un archivo de configuración con la misma versión lo actualizamos
 		if versionArchivo.has("version") and versionArchivo["version"] == version:
 			game_data = versionArchivo
+	
+	#Si no hay un archivo de configuración usamos la configuración por defecto		
 	else:
 		game_data = default_game_data
 		
 	save_file = null #Cerrar el archivo
 	set_config()
 	
+# Esta función aplica la configuración guardada en el diccionario game_data
 func set_config():
 	#Sonido
 	var volumen = game_data.get("Configuracion", {}).get("volumen")
@@ -235,6 +219,7 @@ func set_config():
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 		DisplayServer.window_set_size(get_resolucion())
 
+# Esta función restablece los puntos y las mejoras. Y las carga
 func reiniciar_partida():
 	var save_file = FileAccess.open(save_path, FileAccess.WRITE)
 
