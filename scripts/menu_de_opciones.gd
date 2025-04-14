@@ -1,27 +1,32 @@
 extends Control
 
+#Referencias a las partes de la interfaz
 @onready var selectorResolucion = $MarginContainer/VBoxContainer/Resolucion
 @onready var checkBoxPantallaCompleta = $MarginContainer/VBoxContainer/PantallaCompleta
 @onready var barraVolumen = $MarginContainer/VBoxContainer/Volumen
 
+# Variable para guardar la referencia al menú principal
 var menuPrincipal = null
 func obtener_menu_principal(menu):
 	menuPrincipal = menu
-	
+
+# Se actualizan los valores visuales de la interfaz
 func _ready() -> void:
 	await get_tree().process_frame
 	actualizarBarra()
 	actualizarResolucionYPantallaCompleta()
 	
-# Sonido
+# SONIDO
 func _on_volumen_value_changed(value: float) -> void:
-	GLOBAL.set_volumen(value)
-	AudioServer.set_bus_volume_db(0, linear_to_db(value))
+	GLOBAL.set_volumen(value)  # Guarda el volumen
+	AudioServer.set_bus_volume_db(0, linear_to_db(value)) # Ajusta el volumen real del juego
 
+# Actualiza visualmente la barra con el valor guardado
 func actualizarBarra():
 	barraVolumen.set_value(GLOBAL.get_volumen())
 
-#Pantalla
+#PANTALLA
+# Cambia la resolución según la opción seleccionada en el menú desplegable
 func _on_resolucion_item_selected(index: int) -> void:
 	match index:
 		0:
@@ -34,6 +39,7 @@ func _on_resolucion_item_selected(index: int) -> void:
 			DisplayServer.window_set_size(Vector2i(1440, 810))  
 			GLOBAL.set_resolucion(Vector2i(1440, 810))
 
+# Alterna entre pantalla completa y modo ventana
 func _on_pantalla_completa_toggled(toggled_on: bool) -> void:
 	if toggled_on:
 		GLOBAL.set_pantalla_completa(true)
@@ -45,7 +51,8 @@ func _on_pantalla_completa_toggled(toggled_on: bool) -> void:
 		DisplayServer.window_set_size(Vector2i(1920, 1080))
 		selectorResolucion.disabled = false
 	actualizarResolucionYPantallaCompleta()
-		
+
+# Actualiza los valores visuales del checkbox y selector de resolución según lo que haya guardado		
 func actualizarResolucionYPantallaCompleta():
 	if GLOBAL.get_pantalla_completa():
 		checkBoxPantallaCompleta.set_pressed(true)
@@ -62,6 +69,7 @@ func actualizarResolucionYPantallaCompleta():
 		Vector2i(1440, 810):
 			selectorResolucion.select(2)
 
+# Restaura los valores predeterminados de sonido y pantalla
 func _on_boton_de_resetear_pressed() -> void:
 	#Audio
 	GLOBAL.set_volumen(GLOBAL.get_default_volumen())
@@ -73,10 +81,12 @@ func _on_boton_de_resetear_pressed() -> void:
 	GLOBAL.set_config()
 	actualizarResolucionYPantallaCompleta()
 
+# Cierra el menú de opciones y vuelve al menú principal
 func _on_boton_de_salir_pressed() -> void:
 	visible = false
 	menuPrincipal.visible = true
 	GLOBAL.set_config()
 
+# Si se sale de manera inesperada se guarda los ultimos valores seleccionados
 func _exit_tree() -> void:
 	GLOBAL.save_game()
