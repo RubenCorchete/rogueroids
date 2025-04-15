@@ -21,7 +21,6 @@ class_name Game extends Node2D
 var vidas = GLOBAL.game_data["vidas"]
 var puntuacion = GLOBAL.game_data["puntos"]
 var jugador = null
-
 var escenaAsteroides = preload("res://scennes/asteroide.tscn")
 var escenaNavesEnemigas = preload("res://scennes/naveEnemiga.tscn")
 
@@ -124,12 +123,12 @@ func _jugadorMuerto():
 		await get_tree().create_timer(2).timeout
 		mostrarMenuPrincipalAlMorir()
 	else:
-		areaDeSpawnDelJugador.controlLimpiezaZonaReaparicion()
 		await get_tree().create_timer(1).timeout
+		$Timers/TimerSpawnAsteroides.stop()
 		areaDeSpawnDelJugador.controlLimpiezaZonaReaparicion()
-		while !areaDeSpawnDelJugador.estaVacio:
-			await get_tree().create_timer(0.1).timeout
+		await get_tree().create_timer(0.1).timeout
 		jugador.reaparecer(zonaReaparicion.global_position)
+		$Timers/TimerSpawnAsteroides.start()
 
 # Muestra el menú principal
 func mostrarMenuPrincipalAlMorir():
@@ -157,9 +156,9 @@ func crear_enemigo_asteroide():
 	asteroides.add_child(a)
 
 func crear_enemigo_nave():
-	var escenaNave = preload("res://scennes/naveEnemiga.tscn")
-	var nuevaNave = escenaNave.instantiate()
-
+	var nuevaNave = escenaNavesEnemigas.instantiate()
+	nuevaNave.global_position = obtener_posicion_fuera_de_pantalla()
+	
 	var posicionInicial = obtener_posicion_fuera_de_pantalla()
 	nuevaNave.global_position = posicionInicial
 
@@ -199,7 +198,7 @@ func actualizar_hud_vidas():
 # Se calcula una posición aleatoria fuera de la pantalla para generar los enemigos
 func obtener_posicion_fuera_de_pantalla() -> Vector2:
 	var pantalla = get_viewport().get_visible_rect().size
-	var margen = 50  # distancia desde el borde
+	var margen = 100  # distancia desde el borde
 	var lado = randi() % 4
 	match lado:
 		0: return Vector2(randf_range(0, pantalla.x), -margen) # arriba

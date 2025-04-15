@@ -101,7 +101,7 @@ position = Vector2(584, 496)
 position = Vector2(632, 752)
 
 [node name="Asteroide3" parent="AsteroidesIniciales" instance=ExtResource("3_yfkqa")]
-position = Vector2(1440, 736)
+position = Vector2(1456, 736)
 
 [node name="Asteroide4" parent="AsteroidesIniciales" instance=ExtResource("3_yfkqa")]
 position = Vector2(1320, 208)
@@ -124,7 +124,7 @@ position = Vector2(728, 224)
 [node name="NavesEnemigas" type="Node" parent="."]
 
 [node name="ZonaDeReaparicion" type="Node2D" parent="."]
-position = Vector2(960, 540)
+position = Vector2(1024, 544)
 
 [node name="SpawnJugador" parent="ZonaDeReaparicion" instance=ExtResource("6_hu44s")]
 
