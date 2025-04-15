@@ -17,11 +17,6 @@ var velocidad := 400
 var puntos = 60
 var direccion = Vector2.ZERO
 
-# _ready se ejecuta cuando el nodo principal y los hijos aparecen en la escena
-func _ready() -> void:
-	# Le doy un angulo aleatorio para que salga moviendose aleatoriamente
-	rotation = randf_range(0,2*PI)
-
 func iniciar_direccion(posicionObjetivo: Vector2):
 	direccion = (posicionObjetivo - global_position).normalized()
 

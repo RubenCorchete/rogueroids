@@ -17,13 +17,17 @@ func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 
 # Si el laser toca un asteroide lo hace explotar
 func _on_area_entered(area: Area2D) -> void:
-	
 	if area is naveEnemiga:
 		var nave = area
 		nave.desaparecerNave()
 		queue_free()
-	
-	if area is asteroide:
+
+	elif area is asteroideDosDeVida:
+		var asteroid_dos_vidas = area
+		asteroid_dos_vidas.asteroideGolpeado()
+		queue_free()
+
+	elif area is asteroide:
 		var asteroid = area
 		asteroid.explosion()
 		queue_free()

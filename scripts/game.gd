@@ -9,7 +9,7 @@ class_name Game extends Node2D
 @onready var pantallaDeGameOver = $UI/MenuPrincipal
 @onready var zonaReaparicion = $ZonaDeReaparicion
 @onready var areaDeSpawnDelJugador = $ZonaDeReaparicion/SpawnJugador
-
+@onready var asteroidesDosHits = $AsteroidesDosHits
 # Sonidos del juego
 @onready var musicaMenu = $Sonido/MusicaMenu
 @onready var musicaInGame = $Sonido/MusicaInGame
@@ -82,16 +82,6 @@ func _asteroideExplotado(posicion, tamaño, puntos):
 	
 	# Se actualiza el HUD
 	hud.puntuacion = GLOBAL.get_puntos()
-	
-	# Se actualiza el tamaño del asteroide
-	for i in range(2):
-		match tamaño:
-			asteroide.TamañosDeAsteroides.GRANDE:
-				spawn_asteroides(posicion, asteroide.TamañosDeAsteroides.MEDIO)
-			asteroide.TamañosDeAsteroides.MEDIO:
-				spawn_asteroides(posicion, asteroide.TamañosDeAsteroides.PEQUEÑO)
-			asteroide.TamañosDeAsteroides.PEQUEÑO:
-				pass
 
 func _naveExplotada(posicion, puntos):
 	# Se ejecuta el sonido de explosión de asteroide
@@ -109,7 +99,7 @@ func spawn_asteroides(pos, size):
 	a.global_position = pos
 	a.size = size
 	a.connect("explotar", _asteroideExplotado)
-	asteroides.call_deferred("add_child", a)
+	asteroidesDosHits.call_deferred("add_child", a)
 	
 # Se llama cuando el jugador muere.
 func _jugadorMuerto():
@@ -147,6 +137,12 @@ func _on_timer_timeout() -> void:
 	if GLOBAL.jugando:
 		crear_enemigo_asteroide()
 		crear_enemigo_nave()
+		
+		
+		var a = preload("res://scennes/asteroideDosDeVida.tscn").instantiate()
+		a.global_position = obtener_posicion_fuera_de_pantalla()
+		a.rotation = obtener_rotacion_hacia_centro(a.global_position)
+		asteroides.add_child(a)
 		
 func crear_enemigo_asteroide():
 	var a = escenaAsteroides.instantiate()
