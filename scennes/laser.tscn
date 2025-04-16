@@ -1,11 +1,24 @@
-[gd_scene load_steps=4 format=3 uid="uid://b341lh3jkl8gl"]
+[gd_scene load_steps=10 format=3 uid="uid://b341lh3jkl8gl"]
 
 [ext_resource type="Script" path="res://scripts/laser.gd" id="1_5yxr0"]
 [ext_resource type="Texture2D" uid="uid://dwpc6n1tegxpp" path="res://assets/NavesJugador/Nave1/laserBlue01.png" id="1_pwc0r"]
+[ext_resource type="AudioStream" uid="uid://c1xc2ti4bxaji" path="res://assets/Sonidos/sfx_laser1.ogg" id="3_nhni1"]
+[ext_resource type="AudioStream" uid="uid://cme6em52jj2wb" path="res://assets/Sonidos/explosionAsteroides/Explosion1.wav" id="4_rwqan"]
+[ext_resource type="AudioStream" uid="uid://c73p23ndsxkqu" path="res://assets/Sonidos/explosionAsteroides/Explosion2.wav" id="5_2v57j"]
+[ext_resource type="AudioStream" uid="uid://conbqo7ihlb1l" path="res://assets/Sonidos/explosionAsteroides/Explosion3.wav" id="6_udv2g"]
+[ext_resource type="AudioStream" uid="uid://dlsds6u23erjg" path="res://assets/Sonidos/explosionAsteroides/Explosion4.wav" id="7_milwk"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2u7wo"]
 radius = 4.0
 height = 54.0
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_86f3f"]
+playback_mode = 1
+streams_count = 4
+stream_0/stream = ExtResource("4_rwqan")
+stream_1/stream = ExtResource("5_2v57j")
+stream_2/stream = ExtResource("6_udv2g")
+stream_3/stream = ExtResource("7_milwk")
 
 [node name="Laser" type="Area2D"]
 collision_layer = 8
@@ -25,6 +38,13 @@ shape = SubResource("CapsuleShape2D_2u7wo")
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 position = Vector2(0, -20)
 scale = Vector2(0.3, 1.4)
+
+[node name="SonidoLaser" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_nhni1")
+
+[node name="SonidoGolpearAsteroide" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_86f3f")
+volume_db = -10.0
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

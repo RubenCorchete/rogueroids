@@ -74,10 +74,7 @@ func _disparoJugador(laser):
 	lasers.add_child(laser)
 
 	# Esta función es llamada cuando explota un asteroide
-func _asteroideExplotado(posicion, tamaño, puntos):
-	# Se ejecuta el sonido de explosión de asteroide
-	sonidoGolpearAsteroide.play()
-	
+func _asteroideExplotado(posicion, tamaño, puntos):	
 	# Se suman los puntos por explotarlo
 	GLOBAL.set_añadir_puntos(puntos)
 	

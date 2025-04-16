@@ -6,6 +6,10 @@ var vectorDeMovimiento := Vector2(0, -1)
 
 # Velocidad del laser
 @export var velocidad := 500.0
+@onready var disparoJugador = $SonidoLaser
+
+func _ready() -> void:
+	disparoJugador.play()
 
 func _physics_process(delta):
 	# Mueve el láser en la dirección de su rotación, multiplicado por su velocidad y el tiempo entre frames.
@@ -25,9 +29,13 @@ func _on_area_entered(area: Area2D) -> void:
 	elif area is asteroideDosDeVida:
 		var asteroid_dos_vidas = area
 		asteroid_dos_vidas.asteroideGolpeado()
+		$SonidoGolpearAsteroide.play()
+		await $SonidoGolpearAsteroide.finished
 		queue_free()
 
 	elif area is asteroide:
 		var asteroid = area
 		asteroid.explosion()
+		$SonidoGolpearAsteroide.play()
+		await $SonidoGolpearAsteroide.finished
 		queue_free()
