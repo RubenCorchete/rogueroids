@@ -116,7 +116,7 @@ offset_right = 1120.0
 offset_bottom = 960.0
 theme_override_fonts/font = ExtResource("2_hkyum")
 theme_override_font_sizes/font_size = 48
-text = "Salir"
+text = "Atrás"
 
 [node name="SonidoCompra" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("6_678cv")
