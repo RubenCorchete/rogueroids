@@ -42,16 +42,19 @@ layout_mode = 2
 offset_left = 632.0
 offset_top = 328.0
 offset_right = 1288.0
-offset_bottom = 589.0
+offset_bottom = 578.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
 [node name="ButtonMejoraVelocidadDisparo" type="Button" parent="HBoxContainer"]
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
+size_flags_vertical = 4
 disabled = true
-text = "Aumento de valocidad 
-de disparo
+text = "Cadencia
+
+
+
 
 
 
@@ -68,8 +71,11 @@ layout_mode = 2
 [node name="ButtonMejoraAddVida" type="Button" parent="HBoxContainer"]
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
+size_flags_vertical = 4
 disabled = true
-text = "Aumento de una Vida
+text = "Vida Extra
+
+
 
 
 
@@ -87,9 +93,9 @@ layout_mode = 2
 [node name="ButtonMejoraCañones" type="Button" parent="HBoxContainer"]
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
+size_flags_vertical = 4
 disabled = true
-text = "
-Doble Cañon      
+text = "Doble Disparo
 
 
 
@@ -97,9 +103,8 @@ Doble Cañon
 
 
 
-10000 puntos
 
-"
+10000 puntos"
 icon = ExtResource("5_8vurs")
 icon_alignment = 1
 
