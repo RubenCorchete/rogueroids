@@ -33,6 +33,7 @@ func _on_button_mejora_velocidad_disparo_button_up() -> void:
 	GLOBAL.set_mejora_velocidad_de_disparo()
 	VelocidadDeDisparo.disabled = true
 	referencia_a_game.actualizar_hud_score()
+	sonidoCompra()
 	
 # Función que se ejecuta cuando el botón de añadir vida es presionado
 func _on_button_mejora_add_vida_button_up() -> void:
@@ -40,12 +41,14 @@ func _on_button_mejora_add_vida_button_up() -> void:
 	AddVida.disabled = true
 	referencia_a_game.actualizar_hud_score()
 	referencia_a_game.actualizar_hud_vidas()
+	sonidoCompra()
 
 # Función que se ejecuta cuando el botón de mejora de cañones es presionado	
 func _on_button_mejora_cañones_button_up() -> void:
 	GLOBAL.set_mejora_dos_cañones()
 	AddDosCañones.disabled = true
 	referencia_a_game.actualizar_hud_score()
+	sonidoCompra()
 
 # Función que comprueba qué mejoras están disponibles para ser adquiridas
 func comprobarMejorasDisponibles():
@@ -76,3 +79,6 @@ func comprobarSiHaySuficientesPuntos(lista : Dictionary, nombreMejora : String) 
 			if lista[mejora]["coste"] <= GLOBAL.get_puntos():
 				return true
 	return false
+	
+func sonidoCompra():
+	$SonidoCompra.play()

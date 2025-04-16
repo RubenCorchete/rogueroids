@@ -19,6 +19,7 @@ enum TamañosDeAsteroides {GRANDE, MEDIO, PEQUEÑO}
 # Referencias a nodos del árbol
 @onready var sprite = $Sprite2D
 @onready var forma = $CollisionShape2D
+@onready var sonidoGrieta = $GrietaAsteroide
 
 # Diccionario que asocia cada tamaño con su textura normal
 const TEXTURAS := {
@@ -99,6 +100,7 @@ func asteroideGolpeado():
 		explosion()
 	else:
 		# Efecto de golpe visual (parpadeo rojo)
+		sonidoGrieta.play()
 		modulate = Color(1, 0.5, 0.5)
 		await get_tree().create_timer(0.1).timeout
 		modulate = Color(1, 1, 1)
@@ -112,10 +114,12 @@ func explosion():
 		TamañosDeAsteroides.GRANDE:
 			sprite.texture = TEXTURAS_GOLPEADO[TamañosDeAsteroides.MEDIO]
 			size = TamañosDeAsteroides.MEDIO
+			emit_signal("explotar", global_position, size, puntos)
 
 		TamañosDeAsteroides.MEDIO:
 			sprite.texture = TEXTURAS_GOLPEADO[TamañosDeAsteroides.PEQUEÑO]
 			size = TamañosDeAsteroides.PEQUEÑO
+			emit_signal("explotar", global_position, size, puntos)
 
 		TamañosDeAsteroides.PEQUEÑO:
 			# En el más pequeño, emitimos señal y destruimos

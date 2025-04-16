@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://nobliltyi0ge"]
+[gd_scene load_steps=5 format=3 uid="uid://nobliltyi0ge"]
 
 [ext_resource type="Script" path="res://scripts/asteroide_dos_de_vida.gd" id="1_nmbf4"]
 [ext_resource type="Texture2D" uid="uid://8jdgeka45yxa" path="res://assets/Enemigos/Asteroides/MeteoritoGrandeGris.png" id="2_pl43e"]
 [ext_resource type="Shape2D" uid="uid://c4y006mp5qwvk" path="res://recursos/asteroide_forma_pequeño.tres" id="3_qp3h8"]
+[ext_resource type="AudioStream" uid="uid://ratknr1enjfo" path="res://assets/Sonidos/AsteroideGrieta.wav" id="4_ewvk8"]
 
 [node name="Asteroide" type="Area2D"]
 collision_layer = 4
@@ -17,5 +18,9 @@ texture = ExtResource("2_pl43e")
 position = Vector2(0, -1)
 scale = Vector2(1.25, 1.25)
 shape = ExtResource("3_qp3h8")
+
+[node name="GrietaAsteroide" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_ewvk8")
+volume_db = 5.0
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

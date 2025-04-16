@@ -14,7 +14,7 @@ var velocidad := 400
 @onready var forma = $CollisionShape2D
 
 # Puntos
-var puntos = 60
+var puntos = 150
 var direccion = Vector2.ZERO
 
 func iniciar_direccion(posicionObjetivo: Vector2):

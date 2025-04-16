@@ -15,6 +15,7 @@ class_name Game extends Node2D
 @onready var musicaInGame = $Sonido/MusicaInGame
 @onready var disparoJugador = $Sonido/SonidoLaser
 @onready var sonidoGolpearAsteroide = $Sonido/SonidoGolpearAsteroide
+@onready var sonidoGolpearNaveKamikaze = $Sonido/NaveKamikazeGolpeada
 @onready var sonidoMuerteJugador = $Sonido/SonidoMuerteJugador
 
 # Variables que contienen el estado del juego
@@ -85,7 +86,7 @@ func _asteroideExplotado(posicion, tamaño, puntos):
 
 func _naveExplotada(posicion, puntos):
 	# Se ejecuta el sonido de explosión de asteroide
-	sonidoGolpearAsteroide.play()
+	sonidoGolpearNaveKamikaze.play()
 	
 	# Se suman los puntos por explotarlo
 	GLOBAL.set_añadir_puntos(puntos)
@@ -136,12 +137,14 @@ func mostrarMenuPrincipalAlMorir():
 func _on_timer_timeout() -> void:
 	if GLOBAL.jugando:
 		crear_enemigo_asteroide()
+		crear_enemigos_asteroide_dos_hits()
 		crear_enemigo_nave()
-		
-		
+
+func crear_enemigos_asteroide_dos_hits():
 		var a = preload("res://scennes/asteroideDosDeVida.tscn").instantiate()
 		a.global_position = obtener_posicion_fuera_de_pantalla()
 		a.rotation = obtener_rotacion_hacia_centro(a.global_position)
+		a.connect("explotar", _asteroideExplotado)
 		asteroides.add_child(a)
 		
 func crear_enemigo_asteroide():
@@ -154,7 +157,7 @@ func crear_enemigo_asteroide():
 func crear_enemigo_nave():
 	var nuevaNave = escenaNavesEnemigas.instantiate()
 	nuevaNave.global_position = obtener_posicion_fuera_de_pantalla()
-	
+	nuevaNave.connect("desaparecer", _naveExplotada)
 	var posicionInicial = obtener_posicion_fuera_de_pantalla()
 	nuevaNave.global_position = posicionInicial
 

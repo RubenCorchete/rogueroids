@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://3afpshpakqk8"]
+[gd_scene load_steps=8 format=3 uid="uid://3afpshpakqk8"]
 
 [ext_resource type="Script" path="res://scripts/tienda_de_objetos.gd" id="1_pjw6u"]
 [ext_resource type="Texture2D" uid="uid://dwpc6n1tegxpp" path="res://assets/NavesJugador/Nave1/laserBlue01.png" id="2_1eems"]
 [ext_resource type="FontFile" uid="uid://eno2cvxdrdvd" path="res://assets/fuentes/Kenney Blocks.ttf" id="2_hkyum"]
 [ext_resource type="Texture2D" uid="uid://cr6inbfpebr8x" path="res://assets/NavesJugador/Nave1/vidaJugador.png" id="4_nw7ci"]
 [ext_resource type="Texture2D" uid="uid://bdxgvlqta777" path="res://assets/NavesJugador/Nave1/nave2cañones.png" id="5_8vurs"]
+[ext_resource type="AudioStream" uid="uid://do7sim577fnq2" path="res://assets/Sonidos/Compra.wav" id="6_678cv"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_fq2j6"]
 font = ExtResource("2_hkyum")
@@ -111,6 +112,9 @@ offset_bottom = 960.0
 theme_override_fonts/font = ExtResource("2_hkyum")
 theme_override_font_sizes/font_size = 48
 text = "Salir"
+
+[node name="SonidoCompra" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_678cv")
 
 [connection signal="button_up" from="HBoxContainer/ButtonMejoraVelocidadDisparo" to="." method="_on_button_mejora_velocidad_disparo_button_up"]
 [connection signal="button_up" from="HBoxContainer/ButtonMejoraAddVida" to="." method="_on_button_mejora_add_vida_button_up"]
