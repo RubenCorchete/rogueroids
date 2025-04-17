@@ -2,7 +2,7 @@
 class_name asteroideDosDeVida extends Area2D
 
 # Señal que se emitirá al explotar el asteroide
-signal explotar(posicion, tamaño, puntos)
+signal explotar(tamaño, puntos)
 
 # Variables exportadas para modificar desde el editor
 @export var size: TamañosDeAsteroides
@@ -114,16 +114,16 @@ func explosion():
 		TamañosDeAsteroides.GRANDE:
 			sprite.texture = TEXTURAS_GOLPEADO[TamañosDeAsteroides.MEDIO]
 			size = TamañosDeAsteroides.MEDIO
-			emit_signal("explotar", global_position, size, puntos)
+			emit_signal("explotar", puntos)
 
 		TamañosDeAsteroides.MEDIO:
 			sprite.texture = TEXTURAS_GOLPEADO[TamañosDeAsteroides.PEQUEÑO]
 			size = TamañosDeAsteroides.PEQUEÑO
-			emit_signal("explotar", global_position, size, puntos)
+			emit_signal("explotar", puntos)
 
 		TamañosDeAsteroides.PEQUEÑO:
 			# En el más pequeño, emitimos señal y destruimos
-			emit_signal("explotar", global_position, size, puntos)
+			emit_signal("explotar", puntos)
 			queue_free()
 
 # Crea una nueva instancia de asteroide con un tamaño menor

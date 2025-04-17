@@ -18,27 +18,27 @@ class_name Game extends Node2D
 @onready var sonidoMuerteJugador = $Sonido/SonidoMuerteJugador
 
 # Variables que contienen el estado del juego
-var vidas = GLOBAL.game_data["vidas"]
-var puntuacion = GLOBAL.game_data["puntos"]
+var vidas = GameData.game_data["vidas"]
+var puntuacion = GameData.game_data["puntos"]
 var jugador = null
 var escenaAsteroides = preload("res://scennes/asteroide.tscn")
 var escenaNavesEnemigas = preload("res://scennes/naveEnemiga.tscn")
 
 func _ready() -> void:
 	# Cargamos una nave u otra en base a si tenemos la mejora de cañones o no
-	if GLOBAL.get_numero_cañones() == 1:
+	if GameData.get_numero_cañones() == 1:
 		jugador = preload("res://scennes/jugador.tscn").instantiate()
 	else:
 		jugador = preload("res://scennes/jugador2cañones.tscn").instantiate()
 	
 	# Cargamos los datos almacenados del juego
-	GLOBAL.load_game()
+	GameData.load_game()
 	
 	# Actualizamos el hud
 	actualizarPuntuacionVidas()
 
 	# Logica de aparición del menú
-	if !GLOBAL.jugando:
+	if !GameData.jugando:
 		musicaMenu.play()
 		pantallaDeGameOver.visible = true
 	else:
@@ -56,15 +56,15 @@ func _ready() -> void:
 	
 func _process(delta):
 	# Lógica de los sonidos
-	if !GLOBAL.jugando and !musicaMenu.is_playing():
+	if !GameData.jugando and !musicaMenu.is_playing():
 		musicaInGame.stop()
 		musicaMenu.play()
 		
-	if GLOBAL.jugando and !musicaInGame.is_playing():
+	if GameData.jugando and !musicaInGame.is_playing():
 		musicaMenu.stop()
 		musicaInGame.play()
 		
-	if !GLOBAL.jugando and navesEnemigas != null:
+	if !GameData.jugando and navesEnemigas != null:
 		navesEnemigas.queue_free()
 		
 func _disparoJugador(laser):
@@ -73,22 +73,22 @@ func _disparoJugador(laser):
 	lasers.add_child(laser)
 
 	# Esta función es llamada cuando explota un asteroide
-func _asteroideExplotado(posicion, tamaño, puntos):	
+func _asteroideExplotado(puntos):	
 	# Se suman los puntos por explotarlo
-	GLOBAL.set_añadir_puntos(puntos)
+	GameData.set_añadir_puntos(puntos)
 	
 	# Se actualiza el HUD
-	hud.puntuacion = GLOBAL.get_puntos()
+	hud.puntuacion = GameData.get_puntos()
 
-func _naveExplotada(posicion, puntos):
+func _naveExplotada(puntos):
 	# Se ejecuta el sonido de explosión de asteroide
 	sonidoGolpearNaveKamikaze.play()
 	
 	# Se suman los puntos por explotarlo
-	GLOBAL.set_añadir_puntos(puntos)
+	GameData.set_añadir_puntos(puntos)
 	
 	# Se actualiza el HUD
-	hud.puntuacion = GLOBAL.get_puntos()
+	hud.puntuacion = GameData.get_puntos()
 
 # Genera un asteroide en la posición y del tamaño pasado por parametro.
 func spawn_asteroides(pos, size):
@@ -123,15 +123,15 @@ func mostrarMenuPrincipalAlMorir():
 	pantallaDeGameOver.visible = true
 	
 	# Actualiza los datos del jugador
-	GLOBAL.jugando = false
+	GameData.jugando = false
 	jugador.morir()
-	vidas = GLOBAL.get_vidas_maximas()
+	vidas = GameData.get_vidas()
 	actualizarPuntuacionVidas()
-	GLOBAL.save_game()
+	GameData.save_game()
 
 # Esta función genera asteroides en base a un timer
 func _on_timer_timeout() -> void:
-	if GLOBAL.jugando:
+	if GameData.jugando:
 		crear_enemigo_asteroide()
 		crear_enemigos_asteroide_dos_hits()
 		crear_enemigo_nave()
@@ -165,30 +165,30 @@ func crear_enemigo_nave():
 
 # Guardado automático de la partida
 func _on_auto_guardado_timeout() -> void:
-	if GLOBAL.jugando:
-		GLOBAL.save_game()
+	if GameData.jugando:
+		GameData.save_game()
 
 # Refresca la información de las vidas en el HUD
 func actualizarPuntuacionVidas():
-	puntuacion = GLOBAL.game_data["puntos"]
-	vidas = GLOBAL.game_data["vidas"]
+	puntuacion = GameData.game_data["puntos"]
+	vidas = GameData.game_data["vidas"]
 	hud.cambiarScore(puntuacion)
 	hud.iniciarVidas(vidas)
 
 # Refresca la información toda la información del HUD
 func actualizarPuntuacionVidasReinicio():
-	puntuacion = GLOBAL.game_data["puntosInicio"]
-	vidas = GLOBAL.game_data["vidasIniciales"]
+	puntuacion = GameData.game_data["puntosInicio"]
+	vidas = GameData.game_data["vidasIniciales"]
 	hud.cambiarScore(puntuacion)
 	hud.iniciarVidas(vidas)
 
 # Refresca sólo la puntuación en el HUD.
 func actualizar_hud_score():
-	hud.cambiarScore(GLOBAL.get_puntos())
+	hud.cambiarScore(GameData.get_puntos())
 
 # Refresca la información de las vidas en el HUD	
 func actualizar_hud_vidas():
-	hud.iniciarVidas(GLOBAL.get_vidas())
+	hud.iniciarVidas(GameData.get_vidas())
 
 # Se calcula una posición aleatoria fuera de la pantalla para generar los enemigos
 func obtener_posicion_fuera_de_pantalla() -> Vector2:

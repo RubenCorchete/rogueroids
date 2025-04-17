@@ -6,12 +6,12 @@ class_name menu extends Control
 
 # Función que inicia la aprtida
 func _on_boton_de_inicio_pressed() -> void:
-	GLOBAL.jugando = true
+	GameData.jugando = true
 	get_tree().reload_current_scene()
 
 # Botón de cerrar el juego
 func _on_boton_de_salir_pressed() -> void:
-	GLOBAL.save_game()
+	GameData.save_game()
 	get_tree().quit()
 
 # Boón de abrir la tienda
@@ -24,7 +24,7 @@ func _on_boton_de_compra_pressed() -> void:
 
 # Botón de resetear partidaa
 func _on_boton_de_restart_partida_pressed() -> void:
-	GLOBAL.reiniciar_partida()
+	GameData.reiniciar_partida()
 	get_parent().get_parent().actualizarPuntuacionVidasReinicio() #Obtener escena game
 	
 # Botón de ajustes

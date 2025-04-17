@@ -1,6 +1,6 @@
 class_name asteroide extends Area2D
 
-signal explotar(posicion, tamaño)
+signal explotar(puntos)
 
 var vectorDeMovimiento := Vector2(0,-1)
 
@@ -36,15 +36,15 @@ func _ready() -> void:
 		TamañosDeAsteroides.GRANDE:
 			velocidad = randf_range(50,100)
 			sprite.texture = preload("res://assets/Enemigos/Asteroides/MeteoritoGrande.png")
-			forma.shape = preload("res://recursos/asteroide_forma_grande.tres")
+			forma.set_deferred("shape", preload("res://recursos/asteroide_forma_grande.tres"))
 		TamañosDeAsteroides.MEDIO:
 			velocidad = randf_range(100,150)
 			sprite.texture = preload("res://assets/Enemigos/Asteroides/MeteoritoMedio.png")
-			forma.shape = preload("res://recursos/asteroide_forma_medio.tres")
+			forma.set_deferred("shape", preload("res://recursos/asteroide_forma_medio.tres"))
 		TamañosDeAsteroides.PEQUEÑO:
 			velocidad = randf_range(100,200)
 			sprite.texture = preload("res://assets/Enemigos/Asteroides/MeteoritoPequeño.png")
-			forma.shape = preload("res://recursos/asteroide_forma_pequeño.tres")
+			forma.set_deferred("shape", preload("res://recursos/asteroide_forma_pequeño.tres"))
 
 func _physics_process(delta: float) -> void:
 	global_position += vectorDeMovimiento.rotated(rotation) * velocidad * delta
@@ -63,20 +63,20 @@ func _physics_process(delta: float) -> void:
 		global_position.x = - radio  
 
 func explosion():
-	emit_signal("explotar", global_position, size, puntos)
+	emit_signal("explotar", puntos)
 
-	# Crear asteroides más pequeños si corresponde
 	if size != TamañosDeAsteroides.PEQUEÑO:
-		var nuevo_tamaño = size + 1  # Porque el enum está en orden: GRANDE = 0, MEDIO = 1, PEQUEÑO = 2
+		var nuevo_tamaño = size + 1
 		for i in range(2):
 			var a = escenaAsteroide.instantiate()
 			a.global_position = self.global_position
 			a.size = nuevo_tamaño
 			a.rotation = randf_range(0, 2*PI)
 			a.vectorDeMovimiento = Vector2(0, -1).rotated(a.rotation)
-			get_parent().add_child(a)
+			get_parent().call_deferred("add_child", a)
 			
 	queue_free()
+
 
 func _on_body_entered(body: Node2D) -> void:
 	if body is Jugador or Jugador2Cañones:

@@ -7,9 +7,9 @@ signal muerto # Se emite cuando el jugador muere.
 
 # Variables usadas para la gestión de la nave
 @export var aceleracion := 10 #Aceleracion de la nave
-@export var velocidadMaximaDeLaNave := GLOBAL.get_velocidad_maxima()
-@export var velocidadDeRotacion := GLOBAL.get_velocidad_rotacion()
-@export var tiempoEntreDisparos := GLOBAL.get_tiempo_entre_disparos()
+@export var velocidadMaximaDeLaNave := GameData.get_velocidad_maxima()
+@export var velocidadDeRotacion := GameData.get_velocidad_rotacion()
+@export var tiempoEntreDisparos := GameData.get_tiempo_entre_disparos()
 
 # Referencias de los nodos hijo
 @onready var bocaDeCañon = $"BocaDeCañon"

@@ -11,7 +11,7 @@ var default_game_data : Dictionary = {
 	"tiempoEntreDisparos" : 0.8,
 	"numeroCañones" : 1,
 	"vidasIniciales" : 1,
-	"version" : 1.10,
+	"version" : version,
 	"vidas" : 1,
 	"puntos" : 0,
 	"puntosInicio" : 0,
@@ -77,15 +77,9 @@ func get_velocidad_maxima() -> int:
 func get_vidas() -> int:
 	return game_data.get("vidas", 0)
 
-func get_vidas_maximas() -> int:
-	return game_data.get("vidasMaximas", 0)
-
 func get_puntos() -> int:
 	return game_data.get("puntos", 0)
-
-func get_mejora(nombre: String) -> int:
-	return game_data["Mejoras"].get(nombre, 0)
-
+	
 # Setters
 func set_cañones(valor: int) -> void:
 	game_data["numeroCañones"] = valor
@@ -107,10 +101,6 @@ func set_puntos(valor: int) -> void:
 	
 func set_añadir_puntos(valor: int) -> void:
 	game_data["puntos"] += max(valor, 0) # Evita valores negativos
-
-func set_mejora(nombre: String, valor: int) -> void:
-	if nombre in game_data["Mejoras"]:
-		game_data["Mejoras"][nombre] = max(valor, 0) # Evita valores negativos
 
 #Getters de los datos por defecto
 func get_default_velocidad_maxima_nave() -> float:
@@ -136,13 +126,6 @@ func get_default_puntos() -> int:
 
 func get_default_puntos_inicio() -> int:
 	return default_game_data["puntosInicio"]
-
-# Mejoras
-func get_default_mejora_1() -> int:
-	return default_game_data["Mejoras"]["Mejora1"]
-
-func get_default_mejora_2() -> int:
-	return default_game_data["Mejoras"]["Mejora2"]
 
 #Funciones creadas
 
@@ -176,13 +159,7 @@ func reiniciar_partida():
 
 	# Verificar que default_game_data no sea null
 	var default_game_data_con_config = default_game_data.duplicate(true)
-
-	# Verificar que game_data["configuracion"] exista antes de copiarlo
-	if game_data.has("Configuracion"):
-		default_game_data_con_config["Configuracion"] = game_data["Configuracion"].duplicate(true)
 		
-	print(default_game_data_con_config.get("puntos"))
-	# Guardar los datos reiniciados
 	save_file.store_var(default_game_data_con_config)
 	save_file = null
 

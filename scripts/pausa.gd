@@ -6,7 +6,7 @@ var menuVisible = false
 
 func _process(delta: float) -> void:
 		# Detectamos si se presiona la tecla de pausa "Esc"
-	if Input.is_action_just_pressed("pausa") and GLOBAL.jugando:
+	if Input.is_action_just_pressed("pausa") and GameData.jugando:
 		if !menuVisible:
 			# Si el menú no está visible, lo mostramos
 			menuVisible = true
@@ -26,7 +26,7 @@ func _on_button_continuar_pressed() -> void:
 # Botón "Salir al menú" del menú de pausa
 func _on_button_salir_pressed() -> void:
 	get_parent().mostrarMenuPrincipalAlMorir()
-	GLOBAL.save_game()
+	GameData.save_game()
 	pausar()
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	menuVisible = false
