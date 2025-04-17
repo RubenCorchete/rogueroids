@@ -1,7 +1,0 @@
-{
-	"Configuracion": {
-		"volumen": 0.5,
-		"resolucion": {"x": 1920, "y": 1080},
-		"pantallaCompleta": true
-	}
-}
