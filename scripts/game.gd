@@ -14,7 +14,6 @@ class_name Game extends Node2D
 @onready var musicaMenu = $Sonido/MusicaMenu
 @onready var musicaInGame = $Sonido/MusicaInGame
 @onready var disparoJugador = $Sonido/SonidoLaser
-@onready var sonidoGolpearAsteroide = $Sonido/SonidoGolpearAsteroide
 @onready var sonidoGolpearNaveKamikaze = $Sonido/NaveKamikazeGolpeada
 @onready var sonidoMuerteJugador = $Sonido/SonidoMuerteJugador
 
