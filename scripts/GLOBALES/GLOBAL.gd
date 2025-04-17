@@ -31,11 +31,6 @@ var default_game_data : Dictionary = {
 			"activa" : false,
 			"numeroCañones" : 2
 		}
-	},
-	"Configuracion" : {
-		"volumen" : 0.5,
-		"resolucion" : Vector2i(1920, 1080),
-		"pantallaCompleta" : true, 
 	}
 }
 
@@ -70,9 +65,6 @@ func set_mejora_dos_cañones():
 func get_numero_cañones() -> int:
 	return game_data.get("numeroCañones")
 
-func get_volumen() -> float:
-	return game_data.get("Configuracion").get("volumen")
-
 func get_tiempo_entre_disparos() -> float:
 	return game_data.get("tiempoEntreDisparos")
 
@@ -97,9 +89,6 @@ func get_mejora(nombre: String) -> int:
 # Setters
 func set_cañones(valor: int) -> void:
 	game_data["numeroCañones"] = valor
-	
-func set_volumen(valor: float) -> void:
-	game_data["Configuracion"]["volumen"] = valor
 
 func set_tiempo_entre_disparos(valor: float) -> void:
 	game_data["tiempoEntreDisparos"] = max(valor, 0)  # Evita valores negativos o cero
@@ -155,29 +144,6 @@ func get_default_mejora_1() -> int:
 func get_default_mejora_2() -> int:
 	return default_game_data["Mejoras"]["Mejora2"]
 
-# Configuración
-func get_default_volumen() -> float:
-	return default_game_data["Configuracion"]["volumen"]
-
-func get_default_resolucion() -> Vector2i:
-	return default_game_data["Configuracion"]["resolucion"]
-
-func get_default_pantalla_completa() -> bool:
-	return default_game_data["Configuracion"]["pantallaCompleta"]
-	
-func get_resolucion() -> Vector2i:
-	return game_data["Configuracion"]["resolucion"]
-
-func set_resolucion(res: Vector2i) -> void:
-	game_data["Configuracion"]["resolucion"] = res
-
-# Getter y setter para la pantalla completa
-func get_pantalla_completa() -> bool:
-	return game_data["Configuracion"]["pantallaCompleta"]
-
-func set_pantalla_completa(fullscreen: bool) -> void:
-	game_data["Configuracion"]["pantallaCompleta"] = fullscreen
-
 #Funciones creadas
 
 # Esta función guarda la información de la partida en el archivo de congfiguración
@@ -203,21 +169,6 @@ func load_game() -> void:
 		game_data = default_game_data
 		
 	save_file = null #Cerrar el archivo
-	set_config()
-	
-# Esta función aplica la configuración guardada en el diccionario game_data
-func set_config():
-	#Sonido
-	var volumen = game_data.get("Configuracion", {}).get("volumen")
-	AudioServer.set_bus_volume_db(0, linear_to_db(volumen))
-	
-	#Pantalla
-	if get_pantalla_completa():
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
-		DisplayServer.window_set_size(Vector2i(1920, 1080))
-	else:
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
-		DisplayServer.window_set_size(get_resolucion())
 
 # Esta función restablece los puntos y las mejoras. Y las carga
 func reiniciar_partida():

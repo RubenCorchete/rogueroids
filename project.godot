@@ -17,7 +17,8 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-GLOBAL="*res://scripts/GLOBAL.gd"
+GLOBAL="*res://scripts/GLOBALES/GLOBAL.gd"
+GameSettings="*res://scripts/GLOBALES/Game_Settings.gd"
 
 [display]
 
