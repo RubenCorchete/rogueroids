@@ -25,19 +25,19 @@ func obtener_menu_principal(menu):
 func _on_boton_de_salir_pressed() -> void:
 	visible = false
 	menuPrincipal.visible = true
-	GLOBAL.save_game()
-	GLOBAL.load_game()
+	GameData.save_game()
+	GameData.load_game()
 
 # Función que se ejecuta cuando el botón de mejora de velocidad de disparo es presionado
 func _on_button_mejora_velocidad_disparo_button_up() -> void:
-	GLOBAL.set_mejora_velocidad_de_disparo()
+	GameData.set_mejora_velocidad_de_disparo()
 	VelocidadDeDisparo.disabled = true
 	referencia_a_game.actualizar_hud_score()
 	sonidoCompra()
 	
 # Función que se ejecuta cuando el botón de añadir vida es presionado
 func _on_button_mejora_add_vida_button_up() -> void:
-	GLOBAL.set_mejora_add_vidas()
+	GameData.set_mejora_add_vidas()
 	AddVida.disabled = true
 	referencia_a_game.actualizar_hud_score()
 	referencia_a_game.actualizar_hud_vidas()
@@ -45,14 +45,14 @@ func _on_button_mejora_add_vida_button_up() -> void:
 
 # Función que se ejecuta cuando el botón de mejora de cañones es presionado	
 func _on_button_mejora_cañones_button_up() -> void:
-	GLOBAL.set_mejora_dos_cañones()
+	GameData.set_mejora_dos_cañones()
 	AddDosCañones.disabled = true
 	referencia_a_game.actualizar_hud_score()
 	sonidoCompra()
 
 # Función que comprueba qué mejoras están disponibles para ser adquiridas
 func comprobarMejorasDisponibles():
-	var mejorasDisponibles = GLOBAL.obtenerMejoras()
+	var mejorasDisponibles = GameData.obtenerMejoras()
 	for mejora in mejorasDisponibles:
 		match mejora:
 			"VelocidadDeDisparo":
@@ -76,7 +76,7 @@ func habilitarBoton(boton: Button):
 func comprobarSiHaySuficientesPuntos(lista : Dictionary, nombreMejora : String) -> bool:
 	for mejora in lista:
 		if mejora == nombreMejora:
-			if lista[mejora]["coste"] <= GLOBAL.get_puntos():
+			if lista[mejora]["coste"] <= GameData.get_puntos():
 				return true
 	return false
 	
