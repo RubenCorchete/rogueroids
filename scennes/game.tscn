@@ -139,7 +139,7 @@ stream = ExtResource("14_oqu2k")
 
 [node name="Timers" type="Node" parent="."]
 
-[node name="TimerSpawnAsteroides" type="Timer" parent="Timers"]
+[node name="TimerSpawnAsteroidesUnHit" type="Timer" parent="Timers"]
 wait_time = 3.0
 autostart = true
 
@@ -147,10 +147,25 @@ autostart = true
 wait_time = 60.0
 autostart = true
 
+[node name="AjusteDeDificultad" type="Timer" parent="Timers"]
+wait_time = 180.0
+autostart = true
+
+[node name="TimerSpawnAsteroidesDosHits" type="Timer" parent="Timers"]
+wait_time = 4.0
+autostart = true
+
+[node name="TimerSpawnNavesKamikaze" type="Timer" parent="Timers"]
+wait_time = 6.0
+autostart = true
+
 [node name="Pausa" parent="." instance=ExtResource("14_nxfwm")]
 
 [node name="AsteroidesDosHits" type="Node" parent="."]
 
 [connection signal="area_entered" from="ZonaDeReaparicion/SpawnJugador" to="ZonaDeReaparicion/SpawnJugador" method="_limpiar_zona_spawn"]
-[connection signal="timeout" from="Timers/TimerSpawnAsteroides" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="Timers/TimerSpawnAsteroidesUnHit" to="." method="_on_timer_timeout_spawn_asteroides_un_hit"]
 [connection signal="timeout" from="Timers/AutoGuardado" to="." method="_on_auto_guardado_timeout"]
+[connection signal="timeout" from="Timers/AjusteDeDificultad" to="." method="_on_ajuste_de_dificultad_timeout"]
+[connection signal="timeout" from="Timers/TimerSpawnAsteroidesDosHits" to="." method="_on_timer_spawn_asteroides_dos_hits_timeout"]
+[connection signal="timeout" from="Timers/TimerSpawnNavesKamikaze" to="." method="_on_timer_spawn_naves_kamikaze_timeout"]

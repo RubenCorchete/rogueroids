@@ -17,6 +17,12 @@ class_name Game extends Node2D
 @onready var sonidoGolpearNaveKamikaze = $Sonido/NaveKamikazeGolpeada
 @onready var sonidoMuerteJugador = $Sonido/SonidoMuerteJugador
 
+#Timers de la escena principal
+@onready var TimerSpawnAsteroides = $Timers/TimerSpawnAsteroidesUnHit
+@onready var TimerSpawnAsteroidesDosHits = $Timers/TimerSpawnAsteroidesDosHits
+@onready var TimerSpawnNavesKamikazes = $Timers/TimerSpawnNavesKamikaze
+@onready var AjusteDeDificultad = $Timers/AjusteDeDificultad
+
 # Variables que contienen el estado del juego
 var vidas = GLOBAL.game_data["vidas"]
 var puntuacion = GLOBAL.game_data["puntos"]
@@ -56,11 +62,21 @@ func _ready() -> void:
 	
 func _process(delta):
 	# Lógica de los sonidos
+<<<<<<< Updated upstream
 	if !GLOBAL.jugando and !musicaMenu.is_playing():
 		musicaInGame.stop()
 		musicaMenu.play()
 		
 	if GLOBAL.jugando and !musicaInGame.is_playing():
+=======
+	if !GameData.jugando and !musicaMenu.is_playing():
+		AjusteDeDificultad.stop()
+		musicaInGame.stop()
+		musicaMenu.play()
+		
+	if GameData.jugando and !musicaInGame.is_playing():
+		AjusteDeDificultad.start()
+>>>>>>> Stashed changes
 		musicaMenu.stop()
 		musicaInGame.play()
 		
@@ -130,10 +146,21 @@ func mostrarMenuPrincipalAlMorir():
 	GLOBAL.save_game()
 
 # Esta función genera asteroides en base a un timer
+<<<<<<< Updated upstream
 func _on_timer_timeout() -> void:
 	if GLOBAL.jugando:
+=======
+func _on_timer_timeout_spawn_asteroides_un_hit() -> void:
+	if GameData.jugando:
+>>>>>>> Stashed changes
 		crear_enemigo_asteroide()
+		
+func _on_timer_spawn_asteroides_dos_hits_timeout() -> void:
+	if GameData.jugando:
 		crear_enemigos_asteroide_dos_hits()
+	
+func _on_timer_spawn_naves_kamikaze_timeout() -> void:
+	if GameData.jugando:
 		crear_enemigo_nave()
 
 func crear_enemigos_asteroide_dos_hits():
@@ -206,3 +233,9 @@ func obtener_posicion_fuera_de_pantalla() -> Vector2:
 func obtener_rotacion_hacia_centro(pos: Vector2) -> float:
 	var centro = get_viewport().get_visible_rect().size / 2
 	return (centro - pos).angle()
+
+func _on_ajuste_de_dificultad_timeout() -> void:
+	TimerSpawnAsteroides.wait_time -= 1
+	TimerSpawnAsteroidesDosHits.wait_time -= 1
+	TimerSpawnNavesKamikazes.wait_time -= 1
+	
