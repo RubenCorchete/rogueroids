@@ -22,6 +22,7 @@ class_name Game extends Node2D
 @onready var TimerSpawnAsteroidesDosHits = $Timers/TimerSpawnAsteroidesDosHits
 @onready var TimerSpawnNavesKamikazes = $Timers/TimerSpawnNavesKamikaze
 @onready var AjusteDeDificultad = $Timers/AjusteDeDificultad
+@onready var TimerGanarPartida = $Timers/TimerGanarPartida
 
 # Variables que contienen el estado del juego
 var vidas = GameData.game_data["vidas"]
@@ -63,11 +64,13 @@ func _ready() -> void:
 func _process(delta):
 	# Lógica de los sonidos
 	if !GameData.jugando and !musicaMenu.is_playing():
+		TimerGanarPartida.stop()
 		AjusteDeDificultad.stop()
 		musicaInGame.stop()
 		musicaMenu.play()
 		
 	if GameData.jugando and !musicaInGame.is_playing():
+		TimerGanarPartida.start()
 		AjusteDeDificultad.start()
 		musicaMenu.stop()
 		musicaInGame.play()
@@ -225,4 +228,14 @@ func _on_ajuste_de_dificultad_timeout() -> void:
 	TimerSpawnAsteroides.wait_time -= 1
 	TimerSpawnAsteroidesDosHits.wait_time -= 1
 	TimerSpawnNavesKamikazes.wait_time -= 1
+
+func _on_timer_ganar_partida_timeout() -> void:
+	GameData.jugando = false
+	jugador.visible = false
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE # Hace el ratón visible
+	$"UI/Créditos finales".visible = true
+	await get_tree().create_timer(5).timeout
+	$"UI/Créditos finales".visible = false
 	
+	await get_tree().create_timer(1).timeout
+	mostrarMenuPrincipalAlMorir()

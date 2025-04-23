@@ -1,0 +1,96 @@
+[gd_scene load_steps=6 format=3 uid="uid://8ciruy7ktt5f"]
+
+[ext_resource type="FontFile" uid="uid://eno2cvxdrdvd" path="res://assets/fuentes/Kenney Blocks.ttf" id="1_ycpu0"]
+[ext_resource type="FontFile" uid="uid://c41728c4d1p02" path="res://assets/fuentes/kenvector_future_thin.ttf" id="2_rp33w"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_r5o0a"]
+font = ExtResource("1_ycpu0")
+font_size = 130
+
+[sub_resource type="LabelSettings" id="LabelSettings_25ejt"]
+line_spacing = 6.0
+font = ExtResource("1_ycpu0")
+font_size = 51
+
+[sub_resource type="LabelSettings" id="LabelSettings_24u2e"]
+font = ExtResource("2_rp33w")
+font_size = 50
+
+[node name="Créditos finales" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Ganaste" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -958.0
+offset_top = -501.0
+offset_right = 962.0
+offset_bottom = -305.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Ganaste"
+label_settings = SubResource("LabelSettings_r5o0a")
+horizontal_alignment = 1
+
+[node name="Creado por" type="Label" parent="."]
+offset_left = 1.0
+offset_top = 267.0
+offset_right = 1919.0
+offset_bottom = 344.0
+text = "Creado por Rubén"
+label_settings = SubResource("LabelSettings_25ejt")
+horizontal_alignment = 1
+
+[node name="Colaboraciones especiales" type="Label" parent="."]
+offset_left = 1.0
+offset_top = 394.0
+offset_right = 1917.0
+offset_bottom = 473.0
+text = "Colaboradores Especiales"
+label_settings = SubResource("LabelSettings_25ejt")
+horizontal_alignment = 1
+
+[node name="Nombre Kike" type="Label" parent="."]
+offset_left = -2.0
+offset_top = 475.0
+offset_right = 1914.0
+offset_bottom = 554.0
+text = "	Kike Derrapes"
+label_settings = SubResource("LabelSettings_24u2e")
+horizontal_alignment = 1
+
+[node name="Colaboraciones2" type="Label" parent="."]
+offset_left = -5.0
+offset_top = 592.0
+offset_right = 1911.0
+offset_bottom = 669.0
+text = "QA/Testers"
+label_settings = SubResource("LabelSettings_25ejt")
+horizontal_alignment = 1
+
+[node name="Otros colaboradores" type="Label" parent="."]
+offset_top = 679.0
+offset_right = 1916.0
+offset_bottom = 796.0
+text = "	Kike Derrapes
+	Pantox"
+label_settings = SubResource("LabelSettings_24u2e")
+horizontal_alignment = 1
+
+[node name="Arte" type="Label" parent="."]
+offset_left = 2.0
+offset_top = 905.0
+offset_right = 1918.0
+offset_bottom = 1001.0
+text = "Arte creado por Kenney.nl"
+label_settings = SubResource("LabelSettings_25ejt")
+horizontal_alignment = 1
