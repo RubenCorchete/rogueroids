@@ -17,17 +17,17 @@ var default_game_data : Dictionary = {
 	"puntosInicio" : 0,
 	"Mejoras" : {
 		"VelocidadDeDisparo" : {
-			"coste" : 20,
+			"coste" : 2000,
 			"activa" : false,
 			"nuevaVelocidadDeDisparo" : 0.2
 		},
 		"AddVida" : {
-			"coste" : 20,
+			"coste" : 5000,
 			"activa" : false,
 			"nuevaCantidadVidas" : 2
 		},
 		"DobleCañon" : {
-			"coste" : 20,
+			"coste" : 10000,
 			"activa" : false,
 			"numeroCañones" : 2
 		}

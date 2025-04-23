@@ -42,6 +42,7 @@ label_settings = SubResource("LabelSettings_r5o0a")
 horizontal_alignment = 1
 
 [node name="Creado por" type="Label" parent="."]
+layout_mode = 0
 offset_left = 1.0
 offset_top = 267.0
 offset_right = 1919.0
@@ -51,6 +52,7 @@ label_settings = SubResource("LabelSettings_25ejt")
 horizontal_alignment = 1
 
 [node name="Colaboraciones especiales" type="Label" parent="."]
+layout_mode = 0
 offset_left = 1.0
 offset_top = 394.0
 offset_right = 1917.0
@@ -60,6 +62,7 @@ label_settings = SubResource("LabelSettings_25ejt")
 horizontal_alignment = 1
 
 [node name="Nombre Kike" type="Label" parent="."]
+layout_mode = 0
 offset_left = -2.0
 offset_top = 475.0
 offset_right = 1914.0
@@ -69,6 +72,7 @@ label_settings = SubResource("LabelSettings_24u2e")
 horizontal_alignment = 1
 
 [node name="Colaboraciones2" type="Label" parent="."]
+layout_mode = 0
 offset_left = -5.0
 offset_top = 592.0
 offset_right = 1911.0
@@ -78,6 +82,7 @@ label_settings = SubResource("LabelSettings_25ejt")
 horizontal_alignment = 1
 
 [node name="Otros colaboradores" type="Label" parent="."]
+layout_mode = 0
 offset_top = 679.0
 offset_right = 1916.0
 offset_bottom = 796.0
@@ -87,6 +92,7 @@ label_settings = SubResource("LabelSettings_24u2e")
 horizontal_alignment = 1
 
 [node name="Arte" type="Label" parent="."]
+layout_mode = 0
 offset_left = 2.0
 offset_top = 905.0
 offset_right = 1918.0
