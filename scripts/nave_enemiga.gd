@@ -1,7 +1,7 @@
 class_name naveEnemiga extends Area2D
 
 # Señal que se emite cuando un assteroide explota
-signal desaparecer(posicion, puntos)
+signal desaparecer(puntos)
 
 # Posición a la que se mueve el asteroide, hacia arriba inicialmente
 var vectorDeMovimiento := Vector2(0,-1)
@@ -34,5 +34,5 @@ func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 	queue_free()
 	
 func desaparecerNave():
-	emit_signal("desaparecer", global_position, puntos)
+	emit_signal("desaparecer", puntos)
 	queue_free()
