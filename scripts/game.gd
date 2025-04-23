@@ -122,11 +122,21 @@ func _jugadorMuerto():
 		mostrarMenuPrincipalAlMorir()
 	else:
 		await get_tree().create_timer(1).timeout
-		$Timers/TimerSpawnAsteroides.stop()
+		TimerSpawnAsteroides.stop()
+		TimerSpawnAsteroidesDosHits.stop()
+		TimerSpawnNavesKamikazes.stop()
 		areaDeSpawnDelJugador.controlLimpiezaZonaReaparicion()
-		await get_tree().create_timer(0.1).timeout
+		
+		var particulas = $ParticulasMuerte
+		particulas.visible = true
+		particulas.emitting = true
+		await get_tree().create_timer(0.5).timeout
+		particulas.emitting = false
+		
 		jugador.reaparecer(zonaReaparicion.global_position)
-		$Timers/TimerSpawnAsteroides.start()
+		TimerSpawnAsteroides.start()
+		TimerSpawnAsteroidesDosHits.start()
+		TimerSpawnNavesKamikazes.start()
 
 # Muestra el menú principal
 func mostrarMenuPrincipalAlMorir():
