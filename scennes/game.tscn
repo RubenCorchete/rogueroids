@@ -169,7 +169,7 @@ wait_time = 6.0
 autostart = true
 
 [node name="TimerGanarPartida" type="Timer" parent="Timers"]
-wait_time = 6.0
+wait_time = 300.0
 
 [node name="Pausa" parent="." instance=ExtResource("14_nxfwm")]
 
