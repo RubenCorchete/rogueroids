@@ -12,6 +12,8 @@ var velocidad := 200
 @onready var sprite = $Sprite2D
 @onready var forma = $CollisionShape2D
 
+@onready 	var tamanoPantalla = get_viewport_rect().size
+
 var puntos: int:
 	get:
 		match size:
@@ -31,6 +33,7 @@ func _init() -> void:
 	size = obtener_tamaño_aleatorio()
 
 func _ready() -> void:
+	
 	rotation = randf_range(0,2*PI)
 	match size:
 		TamañosDeAsteroides.GRANDE:
@@ -49,8 +52,9 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	global_position += vectorDeMovimiento.rotated(rotation) * velocidad * delta
 
+	# Guardo el area que ocupa el asteroide
 	var radio = forma.shape.radius
-	var tamanoPantalla = get_viewport_rect().size
+
 
 	if global_position.y + radio < 0:
 		global_position.y = tamanoPantalla.y + radio

@@ -123,6 +123,9 @@ position = Vector2(960, 540)
 
 [node name="SpawnJugador" parent="ZonaDeReaparicion" instance=ExtResource("6_hu44s")]
 
+[node name="ParticulasMuerte" parent="ZonaDeReaparicion" instance=ExtResource("7_1lqkt")]
+visible = false
+
 [node name="Sonido" type="Node2D" parent="."]
 
 [node name="SonidoLaser" type="AudioStreamPlayer2D" parent="Sonido"]
@@ -146,10 +149,6 @@ stream = ExtResource("14_oqu2k")
 [node name="SonidoExplosionReaparicion" type="AudioStreamPlayer2D" parent="Sonido"]
 stream = ExtResource("12_i8j3x")
 volume_db = 24.0
-
-[node name="ParticulasMuerte" parent="." instance=ExtResource("7_1lqkt")]
-visible = false
-position = Vector2(960, 540)
 
 [node name="Timers" type="Node" parent="."]
 

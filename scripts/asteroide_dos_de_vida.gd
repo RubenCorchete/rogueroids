@@ -112,12 +112,14 @@ func asteroideGolpeado():
 func explosion():
 	match size:
 		TamañosDeAsteroides.GRANDE:
-			sprite.texture = TEXTURAS_GOLPEADO[TamañosDeAsteroides.MEDIO]
+			vida = 2
+			sprite.texture = TEXTURAS[TamañosDeAsteroides.MEDIO]
 			size = TamañosDeAsteroides.MEDIO
 			emit_signal("explotar", puntos)
 
 		TamañosDeAsteroides.MEDIO:
-			sprite.texture = TEXTURAS_GOLPEADO[TamañosDeAsteroides.PEQUEÑO]
+			vida = 2
+			sprite.texture = TEXTURAS[TamañosDeAsteroides.PEQUEÑO]
 			size = TamañosDeAsteroides.PEQUEÑO
 			emit_signal("explotar", puntos)
 
@@ -125,7 +127,7 @@ func explosion():
 			# En el más pequeño, emitimos señal y destruimos
 			emit_signal("explotar", puntos)
 			queue_free()
-
+	
 # Crea una nueva instancia de asteroide con un tamaño menor
 func crear_fragmento(nuevo_tamaño):
 	if escenaAsteroide == null:

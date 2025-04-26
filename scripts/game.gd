@@ -131,7 +131,7 @@ func _jugadorMuerto():
 			TimerSpawnNavesKamikazes.stop()
 			areaDeSpawnDelJugador.controlLimpiezaZonaReaparicion()
 			
-			var particulas = $ParticulasMuerte
+			var particulas = $ZonaDeReaparicion/ParticulasMuerte
 			particulas.visible = true
 			particulas.emitting = true
 			await get_tree().create_timer(0.1).timeout
