@@ -10,12 +10,14 @@ class_name Game extends Node2D
 @onready var zonaReaparicion = $ZonaDeReaparicion
 @onready var areaDeSpawnDelJugador = $ZonaDeReaparicion/SpawnJugador
 @onready var asteroidesDosHits = $AsteroidesDosHits
+
 # Sonidos del juego
 @onready var musicaMenu = $Sonido/MusicaMenu
 @onready var musicaInGame = $Sonido/MusicaInGame
 @onready var disparoJugador = $Sonido/SonidoLaser
 @onready var sonidoGolpearNaveKamikaze = $Sonido/NaveKamikazeGolpeada
 @onready var sonidoMuerteJugador = $Sonido/SonidoMuerteJugador
+@onready var sonidoExplosionReaparicion = $Sonido/SonidoExplosionReaparicion
 
 #Timers de la escena principal
 @onready var TimerSpawnAsteroides = $Timers/TimerSpawnAsteroidesUnHit
@@ -116,27 +118,29 @@ func _jugadorMuerto():
 	hud.iniciarVidas(vidas)
 	jugador.global_position = areaDeSpawnDelJugador.global_position
 	
-	# Si no tiene vidas se muestra el menu principal y si tiene sigue jugando
-	if vidas <= 0:
-		await get_tree().create_timer(2).timeout
-		mostrarMenuPrincipalAlMorir()
-	else:
-		await get_tree().create_timer(1).timeout
-		TimerSpawnAsteroides.stop()
-		TimerSpawnAsteroidesDosHits.stop()
-		TimerSpawnNavesKamikazes.stop()
-		areaDeSpawnDelJugador.controlLimpiezaZonaReaparicion()
-		
-		var particulas = $ParticulasMuerte
-		particulas.visible = true
-		particulas.emitting = true
-		await get_tree().create_timer(0.5).timeout
-		particulas.emitting = false
-		
-		jugador.reaparecer(zonaReaparicion.global_position)
-		TimerSpawnAsteroides.start()
-		TimerSpawnAsteroidesDosHits.start()
-		TimerSpawnNavesKamikazes.start()
+	if GameData.jugando:
+		# Si no tiene vidas se muestra el menu principal y si tiene sigue jugando
+		if vidas <= 0:
+			await get_tree().create_timer(2).timeout
+			mostrarMenuPrincipalAlMorir()
+		else:
+			await get_tree().create_timer(1).timeout
+			sonidoExplosionReaparicion.play()
+			TimerSpawnAsteroides.stop()
+			TimerSpawnAsteroidesDosHits.stop()
+			TimerSpawnNavesKamikazes.stop()
+			areaDeSpawnDelJugador.controlLimpiezaZonaReaparicion()
+			
+			var particulas = $ParticulasMuerte
+			particulas.visible = true
+			particulas.emitting = true
+			await get_tree().create_timer(0.1).timeout
+			particulas.emitting = false
+			
+			jugador.reaparecer(zonaReaparicion.global_position)
+			TimerSpawnAsteroides.start()
+			TimerSpawnAsteroidesDosHits.start()
+			TimerSpawnNavesKamikazes.start()
 
 # Muestra el menú principal
 func mostrarMenuPrincipalAlMorir():
@@ -240,11 +244,12 @@ func _on_ajuste_de_dificultad_timeout() -> void:
 	TimerSpawnNavesKamikazes.wait_time -= 1
 
 func _on_timer_ganar_partida_timeout() -> void:
+
 	GameData.jugando = false
 	jugador.visible = false
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE # Hace el ratón visible
 	$"UI/Créditos finales".visible = true
-	await get_tree().create_timer(5).timeout
+	await get_tree().create_timer(10).timeout
 	$"UI/Créditos finales".visible = false
 	
 	await get_tree().create_timer(1).timeout

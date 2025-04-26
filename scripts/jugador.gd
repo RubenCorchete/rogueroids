@@ -93,7 +93,7 @@ func dispararLaser():
 
 # Marca al jugador como muerto, oculta sprite y colisión, y detiene sonidos.
 func morir():
-	if vivo == true:
+	if vivo == true and GameData.jugando:
 		vivo = false
 		estelaNave.visible = false
 		sprite.visible = false
