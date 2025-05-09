@@ -113,7 +113,7 @@ func morir():
 
 # Reaparece al jugador
 func reaparecer(posicion):
-	if vivo == false:
+	if vivo == false and GameData.jugando:
 		vivo = true
 		global_position = posicion
 		velocity = Vector2.ZERO
