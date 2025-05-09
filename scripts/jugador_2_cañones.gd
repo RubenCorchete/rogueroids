@@ -123,3 +123,10 @@ func reaparecer(posicion):
 # Para la estela
 func _on_estela_nave_animation_finished() -> void:
 	estelaNave.pause()
+
+func deshabilitarJugador():
+	vivo = false
+	estelaNave.visible = false
+	sprite.visible = false
+	zonaColision.set_deferred("disabled", true)
+	sonidoAceleracion.stop()

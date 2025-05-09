@@ -150,8 +150,10 @@ func mostrarMenuPrincipalAlMorir():
 	pantallaDeGameOver.visible = true
 	
 	# Actualiza los datos del jugador
-	jugador.morir()
-	GameData.jugando = false
+	if GameData.jugando:
+		jugador.deshabilitarJugador()
+		GameData.jugando = false
+	
 	vidas = GameData.get_vidas()
 	actualizarPuntuacionVidas()
 	GameData.save_game()
@@ -247,7 +249,7 @@ func _on_ajuste_de_dificultad_timeout() -> void:
 
 func _on_timer_ganar_partida_timeout() -> void:
 	GameData.jugando = false
-	jugador.visible = false
+	jugador.deshabilitarJugador()
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE # Hace el ratón visible
 	$"UI/Créditos finales".visible = true
 	await get_tree().create_timer(10).timeout
