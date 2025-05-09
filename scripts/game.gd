@@ -148,8 +148,8 @@ func mostrarMenuPrincipalAlMorir():
 	pantallaDeGameOver.visible = true
 	
 	# Actualiza los datos del jugador
-	GameData.jugando = false
 	jugador.morir()
+	GameData.jugando = false
 	vidas = GameData.get_vidas()
 	actualizarPuntuacionVidas()
 	GameData.save_game()
@@ -244,7 +244,6 @@ func _on_ajuste_de_dificultad_timeout() -> void:
 	TimerSpawnNavesKamikazes.wait_time -= 1
 
 func _on_timer_ganar_partida_timeout() -> void:
-
 	GameData.jugando = false
 	jugador.visible = false
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE # Hace el ratón visible
