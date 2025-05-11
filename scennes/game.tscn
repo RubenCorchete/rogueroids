@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://h4ovwhkij6p7"]
+[gd_scene load_steps=19 format=3 uid="uid://h4ovwhkij6p7"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_n5x7e"]
 [ext_resource type="PackedScene" uid="uid://b7l76qvse7cob" path="res://scennes/hud.tscn" id="2_772il"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://denyfiea668r2" path="res://scennes/menuGameOver.tscn" id="3_8j1ru"]
 [ext_resource type="PackedScene" uid="uid://5vtgs2at3kfd" path="res://scennes/asteroide.tscn" id="3_yfkqa"]
 [ext_resource type="PackedScene" uid="uid://bq6qromyt2cfe" path="res://scennes/spawn_jugador.tscn" id="6_hu44s"]
+[ext_resource type="PackedScene" uid="uid://nobliltyi0ge" path="res://scennes/asteroideDosDeVida.tscn" id="6_qgxn5"]
 [ext_resource type="PackedScene" uid="uid://do67s7rdk4owa" path="res://scennes/particulasMuerte.tscn" id="7_1lqkt"]
 [ext_resource type="AudioStream" uid="uid://c1xc2ti4bxaji" path="res://assets/Sonidos/sfx_laser1.ogg" id="7_vir64"]
 [ext_resource type="AudioStream" uid="uid://bcmaromdnpo2d" path="res://assets/Sonidos/Muerte.wav" id="9_pnlcv"]
@@ -89,6 +90,9 @@ preprocess = 280.0
 
 [node name="AsteroidesIniciales" type="Node" parent="."]
 
+[node name="Asteroide13" parent="AsteroidesIniciales" instance=ExtResource("6_qgxn5")]
+position = Vector2(1014, 1205)
+
 [node name="Asteroide" parent="AsteroidesIniciales" instance=ExtResource("3_yfkqa")]
 position = Vector2(584, 496)
 
@@ -108,7 +112,7 @@ position = Vector2(1423, 495)
 position = Vector2(1200, 912)
 
 [node name="Asteroide7" parent="AsteroidesIniciales" instance=ExtResource("3_yfkqa")]
-position = Vector2(928, 952)
+position = Vector2(916, 960)
 
 [node name="Asteroide8" parent="AsteroidesIniciales" instance=ExtResource("3_yfkqa")]
 position = Vector2(1024, 104)
@@ -173,11 +177,38 @@ wait_time = 6.0
 autostart = true
 
 [node name="TimerGanarPartida" type="Timer" parent="Timers"]
-wait_time = 300.0
+wait_time = 10.0
 
 [node name="Pausa" parent="." instance=ExtResource("14_nxfwm")]
 
 [node name="AsteroidesDosHits" type="Node" parent="."]
+
+[node name="Asteroide10" parent="AsteroidesDosHits" instance=ExtResource("6_qgxn5")]
+position = Vector2(605, 341)
+
+[node name="Asteroide11" parent="AsteroidesDosHits" instance=ExtResource("6_qgxn5")]
+position = Vector2(749, 909)
+
+[node name="Asteroide12" parent="AsteroidesDosHits" instance=ExtResource("6_qgxn5")]
+position = Vector2(560, 635)
+
+[node name="Asteroide15" parent="AsteroidesDosHits" instance=ExtResource("6_qgxn5")]
+position = Vector2(1074, 949)
+
+[node name="Asteroide14" parent="AsteroidesDosHits" instance=ExtResource("6_qgxn5")]
+position = Vector2(847, 115)
+
+[node name="Asteroide16" parent="AsteroidesDosHits" instance=ExtResource("6_qgxn5")]
+position = Vector2(1308, 833)
+
+[node name="Asteroide17" parent="AsteroidesDosHits" instance=ExtResource("6_qgxn5")]
+position = Vector2(1426, 622)
+
+[node name="Asteroide18" parent="AsteroidesDosHits" instance=ExtResource("6_qgxn5")]
+position = Vector2(1386, 351)
+
+[node name="Asteroide19" parent="AsteroidesDosHits" instance=ExtResource("6_qgxn5")]
+position = Vector2(1176, 183)
 
 [connection signal="area_entered" from="ZonaDeReaparicion/SpawnJugador" to="ZonaDeReaparicion/SpawnJugador" method="_limpiar_zona_spawn"]
 [connection signal="timeout" from="Timers/TimerSpawnAsteroidesUnHit" to="." method="_on_timer_timeout_spawn_asteroides_un_hit"]

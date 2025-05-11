@@ -13,8 +13,8 @@ var default_game_data : Dictionary = {
 	"vidasIniciales" : 1,
 	"version" : version,
 	"vidas" : 1,
-	"puntos" : 0,
-	"puntosInicio" : 0,
+	"puntos" : 20000,
+	"puntosInicio" : 20000,
 	"Mejoras" : {
 		"VelocidadDeDisparo" : {
 			"coste" : 2000,
